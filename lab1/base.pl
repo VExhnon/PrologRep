@@ -70,7 +70,10 @@ brother1(X, Y):-man(Y),parent(Z,X),parent(Z,Y),not(X=Y).
 brother2(X):-man(X),man(Y),parent(Z,X),parent(Z,Y),write(Y),write(" "),fail.
 wife1(X, Y):-woman(X),man(Y),parent(X,Z),parent(Y,Z).
 wife2(X):-man(X),woman(Y),parent(X,Z),parent(Y,Z),write(Y),write(" ").
-
+b_s(X,Y):-parent(Z,X),parent(Z,Y).
+s_b(X):-parent(Z,Y),parent(Z,X),write(Y),write(" "),fail.
+grand_pa(X, Y):-man(X),parent(Z,Y),parent(X,Z).
+grand_pas(X):-man(Y),parent(Z,X),parent(Y,Z),write(Y),write(" "),fail.
 
 
 
