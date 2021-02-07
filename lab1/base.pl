@@ -76,7 +76,11 @@ grand_pa(X, Y):-man(X),parent(Z,Y),parent(X,Z).
 grand_pas(X):-man(Y),parent(Z,X),parent(Y,Z),write(Y),write(" "),fail.
 grand_ma(X, Y):-woman(X),wife1(X,Z),parent(H,Y),parent(Z,H).
 grand_mas(X):-woman(Y),parent(Z,X),parent(H,Z),wife1(Y,H),write(Y),write(" "),fail.
+grand_pa_and_son(X,Y):-(man(X),man(Y),parent(X,Z),parent(Z,Y))|( man(X),man(Y),parent(Z,X),parent(Y,Z))
+grand_pa_and_da(X,Y):-(man(X),woman(Y),parent(X,Z),parent(Z,Y))|( woman(X),man(Y),parent(Z,X),parent(Y,Z)).
+uncle(X,Y):-man(X),parent(Z,Y),parent(R,Z),parent(R,X).
+uncle_all(X):-woman(Y), parent(Z,X), parent(R,Z),parent(R,Y),man(R),not(Y=Z),write(Y),write(" "),fail.
 
-
-
+cousin(X,Y):-parent(Z.X),b_s(X,Y).
+cousin_all(X):-b_s(Y,X),parent(Y,Z),write(Z),write(" "),fail.
 

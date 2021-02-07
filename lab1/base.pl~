@@ -74,9 +74,9 @@ b_s(X,Y):-parent(Z,X),parent(Z,Y).
 s_b(X):-parent(Z,Y),parent(Z,X),write(Y),write(" "),fail.
 grand_pa(X, Y):-man(X),parent(Z,Y),parent(X,Z).
 grand_pas(X):-man(Y),parent(Z,X),parent(Y,Z),write(Y),write(" "),fail.
-grand_ma(X, Y):-woman(X),wife1(X,Z),parent(H,Y),parent(H,Z).
+grand_ma(X, Y):-woman(X),wife1(X,Z),parent(H,Y),parent(Z,H).
 grand_mas(X):-woman(Y),parent(Z,X),parent(H,Z),wife1(Y,H),write(Y),write(" "),fail.
-
+grand_pa_and_son(X,Y):-
 
 
 
