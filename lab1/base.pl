@@ -66,8 +66,10 @@ mother1(X,Y):-parent(X,Y),woman(X).
 mother2(X):-parent(Y,X),woman(Y),write(Y),write(" ").
 daughter1(X,Y):-woman(X),parent(Y,X).
 daughter2(X):-woman(Y),parent(X,Y),write(Y).
-
-
+brother1(X, Y):-man(Y),parent(Z,X),parent(Z,Y),not(X=Y).
+brother2(X):-man(X),man(Y),parent(Z,X),parent(Z,Y),write(Y),write(" "),fail.
+wife1(X, Y):-woman(X),man(Y),parent(X,Z),parent(Y,Z).
+wife2(X):-man(X),woman(Y),parent(X,Z),parent(Y,Z),write(Y),write(" ").
 
 
 
