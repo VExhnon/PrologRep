@@ -14,5 +14,14 @@ fib(1,1).
 fib(0,0).
 fib(X,Y):-X>1,X1 is X-1, X2 is X-2, fib(X1,Y1),fib(X2,Y2),Y is Y1+Y2.
 
+fib(1, _, CurX2, CurX2) :- !.
+fib(2, _, CurX2, CurX2) :- !.
+fib(N, CurX1, CurX2, X) :- CurX3 is CurX1 + CurX2, N1 is N - 1, fib(N1, CurX2, CurX3, X).
+fibN(N, X) :- fib(N, 1, 1, X).
+
 numbers(0,0):-!.
 numbers(X,Y):-X1 is (X mod 10),X2 is (X div 10),numbers(X2,Y1),Y is Y1+X1.
+
+numbers(0, CurX, CurX) :- !.
+numbers(Y, CurX, X) :- Mod is Y mod 10, Y1 is Y div 10, CurX1 is CurX + Mod, numbers(Y1, CurX1, X).
+numbers1(Y, X) :- numbers(Y, 0, X).
