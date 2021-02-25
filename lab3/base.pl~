@@ -30,4 +30,11 @@ numbers1(Y, X) :- numbers(Y, 0, X).
 minOfNum(X, X) :- X div 10 =:= 0, !.
 minOfNum(Y, X) :- X2 is (Y mod 10), Y1 is (Y div 10), minOfNum(Y1, X1), (X1 < X2 -> X is X1; X is X2).
 
+minOfNum(0, 10, 0) :- !.
+minOfNum(0, CurX, CurX) :- !.
+minOfNum(Y, CurX, X) :- CurX1 is (Y mod 10), Y1 is (Y div 10), (CurX1 < CurX -> CurX2 is CurX1; CurX2 is CurX), minOfNum(Y1, CurX2, X).
+minOfNum1(Num, Min) :- minOfNum(Num, 10, Min).
 
+%composition of digit numbers, that don't division on 5
+countDigits(Num, Count) :- Num =:= 0,Count is 1 ,!.
+countDigits(Num, Count) :- Mod is (Num mod 10), Num1 is (Num div 10), countDigits(Num1, Count1), (Mod \== 5 -> Count is (Count1 * Mod); Count is Count1).

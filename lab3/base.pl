@@ -35,3 +35,6 @@ minOfNum(0, CurX, CurX) :- !.
 minOfNum(Y, CurX, X) :- CurX1 is (Y mod 10), Y1 is (Y div 10), (CurX1 < CurX -> CurX2 is CurX1; CurX2 is CurX), minOfNum(Y1, CurX2, X).
 minOfNum1(Num, Min) :- minOfNum(Num, 10, Min).
 
+%composition of digit numbers, that don't division on 5
+divOfNum(Y, X) :- Y =:= 0,X is 1 ,!.
+divOfNum(Y, X) :- Mod is (Y mod 10), Y1 is (Y div 10), divOfNum(Y1, X1), (Mod \== 5 -> X is (X1 * Mod); X is X1).
