@@ -25,3 +25,13 @@ numbers(X,Y):-X1 is (X mod 10),X2 is (X div 10),numbers(X2,Y1),Y is Y1+X1.
 numbers(0, CurX, CurX) :- !.
 numbers(Y, CurX, X) :- Mod is Y mod 10, Y1 is Y div 10, CurX1 is CurX + Mod, numbers(Y1, CurX1, X).
 numbers1(Y, X) :- numbers(Y, 0, X).
+
+
+minOfNum(X, X) :- X div 10 =:= 0, !.
+minOfNum(Y, X) :- X2 is (Y mod 10), Y1 is (Y div 10), minOfNum(Y1, X1), (X1 < X2 -> X is X1; X is X2).
+
+minOfNum(0, 10, 0) :- !.
+minOfNum(0, CurX, CurX) :- !.
+minOfNum(Y, CurX, X) :- CurX1 is (Y mod 10), Y1 is (Y div 10), (CurX1 < CurX -> CurX2 is CurX1; CurX2 is CurX), minOfNum(Y1, CurX2, X).
+minOfNum1(Num, Min) :- minOfNum(Num, 10, Min).
+
