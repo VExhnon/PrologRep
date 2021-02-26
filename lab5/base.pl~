@@ -115,4 +115,7 @@ pr_drinkk:- Drinks=[_,_],
                 in_list(Drinks,[pot,s3]),
 		in_list(Drinks,[bottle,s4]),
 		write(s1),nl,write(s2),nl,write(s3),nl,write(s4).
+
+
+		write(Drinks).
 	%	write(WHO1),nl,write(WHO2),nl,write(WHO3),nl,write(WHO4).
