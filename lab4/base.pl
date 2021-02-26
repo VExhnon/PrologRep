@@ -9,8 +9,6 @@ write_list([]):-!.
 write_list([H/T]):-write(H),write_list(T).
 
 
-list_sum([], 0).
-%list_sum([Head|_],S):-S is Head.
-list_sum([Head|Tail],S):-list_sum(Tail,S1),S is (S1+Head).
 
-
+sum_ls_down([], Sum, Sum) :- !.
+sum_ls_down([Head|Tail], CurSum, Sum) :- CurSum1 is CurSum + Head, sum_ls_down(Tail, CurSum1, Sum).
