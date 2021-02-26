@@ -55,10 +55,31 @@ simpNum(X,DEL):-DEL =:= 1,!.
 simpNum(X,DEL):-(X mod DEL =:= 0 -> simpNumFalse(); DEL1 is (DEL - 1),simpNum(X,DEL1)).
 simpNumN(X):-DEL is (X - 1),simpNum(X,DEL).
 
-countSum(Count):-count = count + 1.
-countDels(X,0,count):-!.
-countDels(X,DEL,count):-DEL =:= 1,count is 0,!.
-countDels(X,DEL,count):-(X mod DEL =:= 0 -> DEL1 is (DEL - 1),countDels(X,DEL1,count), count1 is (count + 1); DEL1 is (DEL - 1),countDels(X,DEL1,count)).
-countDelsN(X,count):-DEL is (X - 1),countDels(X,DEL,count).
+countSum(Count1):-Count1 = Count + 1.
+countDels(X,0,Count1):-!.
+countDels(X,DEL,Count1):-DEL =:= 1,Count1 is 0,!.
+countDels(X,DEL,Count1):-(X mod DEL =:= 0 -> DEL1 is (DEL - 1),countDels(X,DEL1,Count1), Count1 is (Count + 1); DEL1 is (DEL - 1),countDels(X,DEL1,Count1), Count1 is Count).
+countDelsN(X,Count1):-DEL is (X - 1),countDels(X,DEL,Count1).
 
 
+%Числа: 4, 6, 8
+% блок: сумма простых цифр числа
+sumOfSimpleDigits(0, CurSum, CurSum) :- !.
+sumOfSimpleDigits(Num, CurSum, Sum) :- Mod is Num mod 10, Num1 is Num div 10, (simpleNumN(Mod) -> CurSum1 is CurSum + Mod; CurSum1 is CurSum), sumOfSimpleDigits(Num1, CurSum1, Sum).
+sumOfSimpleDigitsN(Num, Sum) :- sumOfDigits(Num, 0, Sum).
+
+% блок: взаимно простые числа
+coprimeNums(Num1, Num2) :- nodNumsN(Num1, Num2, Nod), Nod = 1.
+
+% блок: общая задача
+countNumsT15(_, 0, CurCount, CurCount) :- !.
+countNumsT15(Num, CurDel, CurCount, Count) :-
+((
+not(Num mod CurDel =:= 0),
+not(coprimeNums(Num, CurDel)),
+sumOfSimpleDigitsN(Num, SumOfSD),
+coprimeNums(SumOfSD, CurDel)
+) -> CurCount1 is CurCount + 1; CurCount1 is CurCount
+), CurDel1 is CurDel - 1,
+countNumsT15(Num, CurDel1, CurCount1, Count).
+countNumsT15N(Num, Count) :- countNumsT15(Num, Num, 0, Count).
