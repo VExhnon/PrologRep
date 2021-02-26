@@ -44,3 +44,21 @@ minOfNum1(Num, Min) :- minOfNum(Num, 10, Min).
 divOfNum(Num, Divis, Divis) :- Num = 0,Divis is CurDivis,!.
 divOfNum(Num, CurDivis, Divis) :- Mod is (Num mod 10), Num1 is (Num div 10), (Mod \== 5 -> CurDivis1 is (CurDivis * Mod); CurDivis1 is CurDivis), divOfNum(Num1, CurDivis1, Divis).
 divOfNumN(Num, Divis) :- divOfNum(Num, 1, Divis), Divis is Divis.
+
+%evklid
+nodOfNums(X,Y,NOD):- X =:= 0,NOD is Y, !; Y =:= 0,NOD is X, !.
+nodOfNums(X,Y,NOD):- (X > Y -> X1 is X mod Y,nodOfNums(Y,X1,NOD);Y1 is Y mod X, nodOfNums(X,Y1,NOD)).
+nodOfNumsN(X,Y,NOD):- nodOfNums(X,Y,NOD), NOD is NOD.
+
+simpNumFalse():-false,!.
+simpNum(X,DEL):-DEL =:= 1,!.
+simpNum(X,DEL):-(X mod DEL =:= 0 -> simpNumFalse(); DEL1 is (DEL - 1),simpNum(X,DEL1)).
+simpNumN(X):-DEL is (X - 1),simpNum(X,DEL).
+
+countSum(Count):-count = count + 1.
+countDels(X,0,count):-!.
+countDels(X,DEL,count):-DEL =:= 1,count is 0,!.
+countDels(X,DEL,count):-(X mod DEL =:= 0 -> DEL1 is (DEL - 1),countDels(X,DEL1,count), count1 is (count + 1); DEL1 is (DEL - 1),countDels(X,DEL1,count)).
+countDelsN(X,count):-DEL is (X - 1),countDels(X,DEL,count).
+
+
