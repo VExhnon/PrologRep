@@ -71,3 +71,14 @@ pr5:- write("Нет элемента под таким номером(").
 
 min_list_up([H], H):-!.
 min_list_up([H|T], Min):-min_list_up(T,Min1),(H < Min1 -> Min is H;Min is Min1).
+
+
+%Задание 7 Реализовать предикат min_list_down(+List, ?Min), который
+%записывает минимальный элемент списка List в переменную Min или
+%проверяет, является ли значение в переменной Min минимальным
+%элементом в списке List. Реализацию провести рекурсией вниз.
+
+
+min_list_down([],Min,Min):-!.
+min_list_down([H|T],X,Min):-(H<X -> X1 is H;X1 is X),min_list_down(T,X1,Min).
+min_list_down([H|T],Min):- min_list_down(T,H,Min).
