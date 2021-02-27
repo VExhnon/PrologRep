@@ -22,9 +22,10 @@ sum_ls_up([Head|Tail], Sum) :- sum_ls_up(Tail,Sum1),Sum is (Sum1 + Head).
 %оба значения, то предикат проверяет, находится ли элемент Elem в списке
 %под номером Numb.
 
-list_el_numb(List,L,N):-list_el_numb(List,L,0,N).
+
 list_el_numb([H|_],H,N,N):-!.
 list_el_numb([_|T],L,X,N):-X1 is X+1,list_el_numb(T,L,X1,N).
+list_el_numb(List,L,N):-list_el_numb(List,L,0,N).
 
 %Задание 4 Реализовать программу, которая читает список, читает элемент
 %и находит номер первого вхождения элемента в список. В случае, если
@@ -60,3 +61,13 @@ pr5:-  write("Введите N: "),
        write(L),!.
 
 pr5:- write("Нет элемента под таким номером(").
+
+
+%Задание 6 Реализовать предикат min_list_up(+List, ?Min), который
+%записывает минимальный элемент списка List в переменную Min или
+%проверяет, является ли значение в переменной Min минимальным
+%элементом в списке List. Реализацию провести рекурсией вверх.
+
+
+min_list_up([H], H):-!.
+min_list_up([H|T], Min):-min_list_up(T,Min1),(H < Min1 -> Min is H;Min is Min1).
