@@ -134,3 +134,9 @@ p(S,[_|T]):-p(S,T).
 del_num(0,[_|T],T):- !.
 del_num(X,[Head|T1],[Head|T2]) :- X1 is X-1,del_num(X1,T1,T2).
 
+%Задание 13 Построить предикат, который удаляет все элементы, равные
+%данному.
+
+rem_num([],_,[]).
+rem_num([H|T],H,T1):-!,rem_num(T,H,T1).
+rem_num([H|T],X,[H|T1]):-rem_num(T,X,T1).
