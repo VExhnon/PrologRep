@@ -16,3 +16,16 @@ sum_ls_down([Head|Tail], CurSum, Sum) :- CurSum1 is CurSum + Head, sum_ls_down(T
 
 sum_ls_up([],0) :- !.
 sum_ls_up([Head|Tail], Sum) :- sum_ls_up(Tail,Sum1),Sum is (Sum1 + Head).
+
+
+%«адание 4 ѕостроить предикат, list_el_numb(+List, ?Elem, ?Number). ≈сли
+%задано значение Elem, то предикат записывает в Number номер первого
+%вхождени€ Elem. ≈сли задано значение Number, то предикат записывает в
+%Elem значение, наход€щеес€ в списке под номером Number. ≈сли заданы
+%оба значени€, то предикат провер€ет, находитс€ ли элемент Elem в списке
+%под номером Numb.
+
+list_el_numb([H|_],H,N,N):-!.
+list_el_numb([_|T],L,X,N):-X1 is (X+1),list_el_numb(T,L,X1,N).
+list_el_numb(List,L,N):-list_el_numb(List,L,0,N).
+
