@@ -80,5 +80,24 @@ min_list_up([H|T], Min):-min_list_up(T,Min1),(H < Min1 -> Min is H;Min is Min1).
 
 
 min_list_down([],Min,Min):-!.
-min_list_down([H|T],X,Min):-(H<X -> X1 is H;X1 is X),min_list_down(T,X1,Min).
+min_list_down([H|T],X,Min):-(H < X -> X1 is H; X1 is X),min_list_down(T,X1,Min).
 min_list_down([H|T],Min):- min_list_down(T,H,Min).
+
+
+%Задание 8 Реализовать программу, которая читает список, находит и
+%выводит
+%на
+%экран
+%его
+%минимальный
+%предикатами из заданий 1, 6 или 7
+
+pr8:-write("Количество элементов списка: "),
+       read(N),nl,
+       write("Введите список"),
+       read_list(N,List),
+       min_list_down(List,Min),
+       write("Минимальный элемент списка: "),
+       write(Min),!.
+
+pr8:-write("Список пустой!").
