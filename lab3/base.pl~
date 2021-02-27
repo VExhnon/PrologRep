@@ -57,29 +57,33 @@ simpNumN(X):-DEL is (X - 1),simpNum(X,DEL).
 
 countSum(Count1):-Count1 = Count + 1.
 countDels(X,0,Count1):-!.
-countDels(X,DEL,Count1):-DEL =:= 1,Count is 0,!.
+countDels(X,DEL,Count1):-DEL =:= 1,Count1 is 0,!.
 countDels(X,DEL,Count1):-(X mod DEL =:= 0 -> DEL1 is (DEL - 1),countDels(X,DEL1,Count1), Count1 is (Count + 1); DEL1 is (DEL - 1),countDels(X,DEL1,Count1), Count1 is Count).
 countDelsN(X,Count1):-DEL is (X - 1),countDels(X,DEL,Count1).
 
 
-%Р§РёСЃР»Р°: 4, 6, 8
-% Р±Р»РѕРє: СЃСѓРјРјР° РїСЂРѕСЃС‚С‹С… С†РёС„СЂ С‡РёСЃР»Р°
-sumOfSimpleDigits(0, CurSum, CurSum) :- !.
-sumOfSimpleDigits(Num, CurSum, Sum) :- Mod is Num mod 10, Num1 is Num div 10, (simpleNumN(Mod) -> CurSum1 is CurSum + Mod; CurSum1 is CurSum), sumOfSimpleDigits(Num1, CurSum1, Sum).
-sumOfSimpleDigitsN(Num, Sum) :- sumOfDigits(Num, 0, Sum).
+%Задание 13 Следующая итерационная последовательность определена для
+%набора натуральных чисел:
+%n > n / 2 ( n четное)
+%n > 3 n + 1 ( n нечетное)
+%Используя приведенное выше правило и начиная с 13, мы генерируем
+%следующую последовательность:
+%Можно видеть, что эта последовательность (начиная с 13 и заканчивая 1)
+%содержит 10 членов. Хотя это еще не доказано (проблема Коллатца),
+%считается, что все начальные числа заканчиваются на 1
+%Какой стартовый номер, менее одного миллиона, дает самую длинную
+%цепочку?
+%ПРИМЕЧАНИЕ. После запуска цепочки условия могут превышать
+%миллиона
 
-% Р±Р»РѕРє: РІР·Р°РёРјРЅРѕ РїСЂРѕСЃС‚С‹Рµ С‡РёСЃР»Р°
-coprimeNums(Num1, Num2) :- nodNumsN(Num1, Num2, Nod), Nod = 1.
+colatz(1,1):-!.
+colatz(2,2):-!.
+colatz(X,N):-X>2,X mod 2 =:= 0,X1 is (X//2),X=\=1,colatz(X1,R),N is R+1.
+colatz(X,N):-X>2,X mod 2 =\= 0,X1 is (3*X+1),X=\=1,colatz(X1,R),N is R+1.
 
-% Р±Р»РѕРє: РѕР±С‰Р°СЏ Р·Р°РґР°С‡Р°
-countNumsT15(_, 0, CurCount, CurCount) :- !.
-countNumsT15(Num, CurDel, CurCount, Count) :-
-((
-not(Num mod CurDel =:= 0),
-not(coprimeNums(Num, CurDel)),
-sumOfSimpleDigitsN(Num, SumOfSD),
-coprimeNums(SumOfSD, CurDel)
-) -> CurCount1 is CurCount + 1; CurCount1 is CurCount
-), CurDel1 is CurDel - 1,
-countNumsT15(Num, CurDel1, CurCount1, Count).
-countNumsT15N(Num, Count) :- countNumsT15(Num, Num, 0, Count).
+colatzN(MAX,MAX,100000):-!.
+%N -текущая длина цепочки, MAX - максимальная
+% длина цепочки,
+colatzN(MAX,MAXN,NUM):-NUM1 is (NUM + 1),colatz(NUM1,N),(N > MAX -> MAX1 is N,colatzN(MAX1,MAXN,NUM1);colatzN(MAX,MAXN,NUM1)).
+colatzN1(MAX,MAXN,NUM):- colatzN(MAX,MAXN,NUM),write(MAXN).
+
