@@ -108,3 +108,11 @@ pr8:-write("Список пустой!").
 
 member(X,[X|T]):-!.
 member(X,[_|T]):-member(X,T).
+
+
+%Задание 10 Построить предикат, который переворачивает список.
+
+
+reverse(L):-reverse(L,[],Answ).
+reverse([],InvL,InvL):-!.
+reverse([H|T],CurList,InvL):-reverse(T,[H|CurList],InvL).
