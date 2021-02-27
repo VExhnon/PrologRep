@@ -140,3 +140,12 @@ del_num(X,[Head|T1],[Head|T2]) :- X1 is X-1,del_num(X1,T1,T2).
 rem_num([],_,[]).
 rem_num([H|T],H,T1):-!,rem_num(T,H,T1).
 rem_num([H|T],X,[H|T1]):-rem_num(T,X,T1).
+
+
+%Задание 14 Построить предикат, который проверяет, встречаются ли все
+%элементы в списке ровно 1 раз.
+
+aloneCheck([]):-!.
+aloneCheck(_,[]):-!.
+aloneCheck(X,[H|T]):- not(X =:= H),aloneCheck(X,T).
+aloneCheck([H|T]):-aloneCheck(H,T),aloneCheck(T).
