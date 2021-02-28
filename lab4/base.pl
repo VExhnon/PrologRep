@@ -184,3 +184,24 @@ max_list_up([H|T], Max):-max_list_up(T,Max1),(H > Max1 -> Max is H;Max is Max1).
 
 maxOrNot(L,X):-max_list_up(L,Max),list_el_numb(L,Max,X).
 maxOrNotT(L,X):-maxOrNot(L,X).
+
+
+%1.13 Дан целочисленный массив. Необходимо разместить элементы,
+%расположенные до минимального, в конце массива.
+
+
+
+er_el([], []):-!.
+er_el([H|T], [H1|T1],G):-T1 is T,G is T1,!.
+eraseList(L,L1,N):-(N > 0 -> er_el(L,L1,G),N1 is (N - 1),eraseList(L,L1,N1);!).
+
+append_ls([], X, X).
+append_ls([H|T1], X, [H|T2]) :- append_ls(T1, X, T2).
+
+newListMin([],L1,Min):-L1 is [],!.
+newListMin([H|T],[H1|T1],Min):-(H =:= Min -> !;H1 is H,newListMin(T,T1,Min)).
+
+minEnd(L,X):-min_list_up(L,Min),list_el_numb(L,Min,N),newListMin(L,L1,Min),append_ls(L1,L2,L),append_ls(L2,L1,X).
+
+
+minAtEnd(L,X):-minEnd(L,X).
