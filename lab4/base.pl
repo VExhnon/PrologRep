@@ -106,7 +106,7 @@ pr8:-write("Список пустой!").
 %Задание 9 Построить предикат, который возвращает true, если элемент
 %есть в списке.
 
-member(X,[X|T]):-!.
+member(X,[X|_]):-!.
 member(X,[_|T]):-member(X,T).
 
 
@@ -149,3 +149,12 @@ aloneCheck([]):-!.
 aloneCheck(_,[]):-!.
 aloneCheck(X,[H|T]):- not(X =:= H),aloneCheck(X,T).
 aloneCheck([H|T]):-aloneCheck(H,T),aloneCheck(T).
+
+
+%Задание 15 Построить предикат, который строит новый список,
+%составленный из уникальных элементов введенного, то есть убирает все
+%повторы, например из списка [1,1,2,3,3,3] получает список [1,2,3].
+
+simplification([],[]):-!.
+simplification([H|T],T1):-member(H,T),simplification(T,T1),!.
+simplification([H|T],[H|T1]):-not(member(H,T)),simplification(T,T1),!.
