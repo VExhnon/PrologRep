@@ -158,3 +158,13 @@ aloneCheck([H|T]):-aloneCheck(H,T),aloneCheck(T).
 simplification([],[]):-!.
 simplification([H|T],T1):-member(H,T),simplification(T,T1),!.
 simplification([H|T],[H|T1]):-not(member(H,T)),simplification(T,T1),!.
+
+
+
+%«адание 16 ѕостроить предикат, который получает дл€ данного элемента
+%количество раз, которое он встречаетс€ в списке.
+
+kolNum([],_,N,N):-!.
+kolNum([H|T],X,N,Y):- (H =:= X -> N1 is (N + 1),kolNum(T,X,N1,Y);N1 is N,kolNum(T,X,N1,Y)).
+kolNum(L,X,Y):-kolNum(L,X,0,Y).
+

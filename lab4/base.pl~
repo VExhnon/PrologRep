@@ -156,5 +156,19 @@ aloneCheck([H|T]):-aloneCheck(H,T),aloneCheck(T).
 %повторы, например из списка [1,1,2,3,3,3] получает список [1,2,3].
 
 simplification([],[]):-!.
-simplification([Head|Tail],Tail1):-member(Head,Tail),simplification(Tail,Tail1),!.
-simplification([Head|Tail],[Head|Tail1]):-not(member(Head,Tail)),simplification(Tail,Tail1),!.
+simplification([H|T],T1):-member(H,T),simplification(T,T1),!.
+simplification([H|T],[H|T1]):-not(member(H,T)),simplification(T,T1),!.
+
+
+
+%Задание 16 Построить предикат, который получает для данного элемента
+%количество раз, которое он встречается в списке.
+
+kolNum([],_,N,N):-!.
+kolNum([H|T],X,N,Y):- (H =:= X -> N1 is (N + 1),kolNum(T,X,N1,Y);N1 is N,kolNum(T,X,N1,Y)).
+kolNum(L,X,Y):-kolNum(L,X,0,Y).
+
+
+counter([],_,Kolvo,Kolvo):-!.
+counter([Head|Tail],Elem,Num,Kolvo) :- (Head =:= Elem -> Num1 is Num+1;Num1 is Num), counter(Tail,Elem,Num1,Kolvo).
+counter(List,Elem,Kolvo):-counter(List,Elem,0,Kolvo).
