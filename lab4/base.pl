@@ -173,3 +173,14 @@ kolNum(L,X,Y):-kolNum(L,X,0,Y).
 
 lenght([],0).
 lenght([_|T],X):-lenght(T,X1),X is (X1 + 1).
+
+
+%1.3
+%ƒан целочисленный массив и натуральный индекс (число, меньшее
+%размера массива). Ќеобходимо определить €вл€етс€ ли элемент по
+%указанному индексу глобальным максимумом.
+max_list_up([H], H):-!.
+max_list_up([H|T], Max):-max_list_up(T,Max1),(H > Max1 -> Max is H;Max is Max1).
+
+maxOrNot(L,X):-max_list_up(L,Max),list_el_numb(L,Max,X).
+maxOrNotT(L,X):-maxOrNot(L,X).
