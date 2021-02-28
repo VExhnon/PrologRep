@@ -169,6 +169,7 @@ kolNum([H|T],X,N,Y):- (H =:= X -> N1 is (N + 1),kolNum(T,X,N1,Y);N1 is N,kolNum(
 kolNum(L,X,Y):-kolNum(L,X,0,Y).
 
 
-counter([],_,Kolvo,Kolvo):-!.
-counter([Head|Tail],Elem,Num,Kolvo) :- (Head =:= Elem -> Num1 is Num+1;Num1 is Num), counter(Tail,Elem,Num1,Kolvo).
-counter(List,Elem,Kolvo):-counter(List,Elem,0,Kolvo).
+%Задание 17 Построить предикат, получающий длину списка.
+
+lenght([],0).
+lenght([_|T],X):-len(T,X1),X is (X1 + 1).

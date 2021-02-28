@@ -168,3 +168,8 @@ kolNum([],_,N,N):-!.
 kolNum([H|T],X,N,Y):- (H =:= X -> N1 is (N + 1),kolNum(T,X,N1,Y);N1 is N,kolNum(T,X,N1,Y)).
 kolNum(L,X,Y):-kolNum(L,X,0,Y).
 
+
+%Задание 17 Построить предикат, получающий длину списка.
+
+lenght([],0).
+lenght([_|T],X):-lenght(T,X1),X is (X1 + 1).
