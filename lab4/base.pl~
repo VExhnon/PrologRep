@@ -226,5 +226,5 @@ minOrNotT(L,X):-minOrNot(L,X).
 sw([],L,L).
 sw([H|T],L,[H|L1]):-sw(T,L,L1).
 
-sd_left([],[]).
-sd_left([H|T],L):-sw(T,[H],L).
+sdLeft([],[]).
+sdLeft([H|T],L):-sw(T,[H],L).
