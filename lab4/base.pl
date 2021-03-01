@@ -205,3 +205,14 @@ minEnd(L,X):-min_list_up(L,Min),list_el_numb(L,Min,N),newListMin(L,L1,Min),appen
 
 
 minAtEnd(L,X):-minEnd(L,X).
+
+
+%1.15 ƒан целочисленный массив и натуральный индекс (число, меньшее
+%размера массива). Ќеобходимо определить €вл€етс€ ли элемент по
+%указанному индексу локальным минимумом.
+
+min_list_up([H], H):-!.
+min_list_up([H|T], Min):-min_list_up(T,Min1),(H < Min1 -> Min is H;Min is Min1).
+
+minOrNot(L,X):-min_list_up(L,Min),list_el_numb(L,Min,X).
+minOrNotT(L,X):-minOrNot(L,X).

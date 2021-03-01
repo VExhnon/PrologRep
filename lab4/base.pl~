@@ -201,7 +201,18 @@ append_ls([H|T1], X, [H|T2]) :- append_ls(T1, X, T2).
 newListMin([],L1,Min):-L1 is [],!.
 newListMin([H|T],[H1|T1],Min):-(H =:= Min -> !;H1 is H,newListMin(T,T1,Min)).
 
-minEnd(L,X):-min_list_up(L,Min),list_el_numb(L,Min,N),newListMin(L,L1,Min),append_ls(L1,L2,L),append_ls(L2,L1,X), reverse(X).
+minEnd(L,X):-min_list_up(L,Min),list_el_numb(L,Min,N),newListMin(L,L1,Min),append_ls(L1,L2,L),append_ls(L2,L1,X).
 
 
 minAtEnd(L,X):-minEnd(L,X).
+
+
+%1.15 ƒан целочисленный массив и натуральный индекс (число, меньшее
+%размера массива). Ќеобходимо определить €вл€етс€ ли элемент по
+%указанному индексу локальным минимумом.
+
+min_list_up([H], H):-!.
+min_list_up([H|T], Min):-min_list_up(T,Min1),(H > Min1 -> Min is H;Min is Min1).
+
+minOrNot(L,X):-min_list_up(L,Min),list_el_numb(L,Min,X).
+minOrNotT(L,X):-minOrNot(L,X).
