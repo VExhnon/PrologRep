@@ -253,6 +253,29 @@ nechet([],[]).
 nechet([H|[]],[]).
 nechet([_,H|T],[H|T1]):-nechet(T,T1).
 
-cnc(L,X):-chet(L,L1),nechet(L,L2),append_ls(L2,L1,X),!.
+cnc(L,X):-chet(L,L1),nechet(L,L2),append_ls(L1,L2,X),!.
 
 cncN(L,X):-cnc(L,X).
+
+
+%1.45 Дан целочисленный массив и интервал a..b. Необходимо найти
+%сумму элементов, значение которых попадает в этот интервал.
+
+newListA([],L1,A):-L1 is [],!.
+newListA([H|T],[H1|T1],A):-(H =:= A -> !;H1 is H,newListA(T,T1,A)).
+
+
+newSummB(L,0,CurX,X):-X is 0,!.
+newSummB([H|T],AB,CurX,X):-AB1 is (AB - 1),(AB1 >= 0 -> newSummB(T,AB1,CurX1,X1),X is (X1 + H);!).
+
+abList(L,A,B,X):-list_el_numb(L,Num,A1),newListA(L,L1,Num),append_ls(L1,L2,L),append_ls(L2,L1,L3),AB is (B - A + 1)
+,CurX is 0,newSummB(L3,AB,CurX,X).
+
+
+% abList(L,A,B,X):-A1 is (A -
+% 1),list_el_numb(L,Num,A1),newListA(L,L1,Num),append_ls(L1,L2,L),append_ls(L2,L1,L3),AB
+% is (B - A + 1)
+%,CurX is 0,newSummB(L3,AB,CurX,X).
+
+
+abListN(L,A,B,X):-abList(L,A,B,X).
