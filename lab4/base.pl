@@ -216,3 +216,15 @@ min_list_up([H|T], Min):-min_list_up(T,Min1),(H < Min1 -> Min is H;Min is Min1).
 
 minOrNot(L,X):-min_list_up(L,Min),list_el_numb(L,Min,X).
 minOrNotT(L,X):-minOrNot(L,X).
+
+
+
+%1.27 Дан целочисленный массив. Необходимо осуществить циклический
+%сдвиг элементов массива влево на одну позицию.
+
+
+sw([],L,L).
+sw([H|T],L,[H|L1]):-sw(T,L,L1).
+
+sdLeft([],[]).
+sdLeft([H|T],L):-sw(T,[H],L).

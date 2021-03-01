@@ -212,7 +212,19 @@ minAtEnd(L,X):-minEnd(L,X).
 %указанному индексу локальным минимумом.
 
 min_list_up([H], H):-!.
-min_list_up([H|T], Min):-min_list_up(T,Min1),(H > Min1 -> Min is H;Min is Min1).
+min_list_up([H|T], Min):-min_list_up(T,Min1),(H < Min1 -> Min is H;Min is Min1).
 
 minOrNot(L,X):-min_list_up(L,Min),list_el_numb(L,Min,X).
 minOrNotT(L,X):-minOrNot(L,X).
+
+
+
+%1.27 ƒан целочисленный массив. Ќеобходимо осуществить циклический
+%сдвиг элементов массива влево на одну позицию.
+
+
+sw([],L,L).
+sw([H|T],L,[H|L1]):-sw(T,L,L1).
+
+sd_left([],[]).
+sd_left([H|T],L):-sw(T,[H],L).
