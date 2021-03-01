@@ -242,3 +242,17 @@ maxOrNotT(L,X):-maxOrNot(L,X).
 
 %1.39 Дан целочисленный массив. Необходимо вывести вначале его
 %элементы с четными индексами, а затем - с нечетными.
+
+
+%0,2,4,6...
+chet([],[]).
+chet([H|[]],[H]).
+chet([H,_|T],[H|T1]):-chet(T,T1).
+
+nechet([],[]).
+nechet([H|[]],[]).
+nechet([_,H|T],[H|T1]):-nechet(T,T1).
+
+cnc(L,X):-chet(L,L1),nechet(L,L2),append_ls(L1,L2,X),!.
+
+cncN(L,X):-cnc(L,X).

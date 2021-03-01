@@ -228,3 +228,31 @@ sw([H|T],L,[H|L1]):-sw(T,L,L1).
 
 sdLeft([],[]).
 sdLeft([H|T],L):-sw(T,[H],L).
+
+
+%1.30Дан целочисленный массив и натуральный индекс (число, меньшее
+%размера массива). Необходимо определить является ли элемент по
+%указанному индексу локальным максимумом.
+
+max_list_up([H], H):-!.
+max_list_up([H|T], Max):-max_list_up(T,Max1),(H > Max1 -> Max is H;Max is Max1).
+
+maxOrNot(L,X):-max_list_up(L,Max),list_el_numb(L,Max,X).
+maxOrNotT(L,X):-maxOrNot(L,X).
+
+%1.39 Дан целочисленный массив. Необходимо вывести вначале его
+%элементы с четными индексами, а затем - с нечетными.
+
+
+%0,2,4,6...
+chet([],[]).
+chet([H|[]],[H]).
+chet([H,_|T],[H|T1]):-chet(T,T1).
+
+nechet([],[]).
+nechet([H|[]],[]).
+nechet([_,H|T],[H|T1]):-nechet(T,T1).
+
+cnc(L,X):-chet(L,L1),nechet(L,L2),append_ls(L2,L1,X),!.
+
+cncN(L,X):-cnc(L,X).
