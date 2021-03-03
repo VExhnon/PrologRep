@@ -268,14 +268,36 @@ newListA([H|T],[H1|T1],A):-(H =:= A -> !;H1 is H,newListA(T,T1,A)).
 newSummB(L,0,CurX,X):-X is 0,!.
 newSummB([H|T],AB,CurX,X):-AB1 is (AB - 1),(AB1 >= 0 -> newSummB(T,AB1,CurX1,X1),X is (X1 + H);!).
 
-abList(L,A,B,X):-list_el_numb(L,Num,A1),newListA(L,L1,Num),append_ls(L1,L2,L),append_ls(L2,L1,L3),AB is (B - A + 1)
+
+abList(L,A,B,X):-A1 is (A - 1),list_el_numb(L,Num,A1),newListA(L,L1,Num),append_ls(L1,L2,L),append_ls(L2,L1,L3),AB is (B - A + 1)
 ,CurX is 0,newSummB(L3,AB,CurX,X).
 
 
-% abList(L,A,B,X):-A1 is (A -
-% 1),list_el_numb(L,Num,A1),newListA(L,L1,Num),append_ls(L1,L2,L),append_ls(L2,L1,L3),AB
-% is (B - A + 1)
-%,CurX is 0,newSummB(L3,AB,CurX,X).
-
-
 abListN(L,A,B,X):-abList(L,A,B,X).
+
+
+% 1.51. ƒл€ введенного списка построить два списка L1 и L2, где элементы
+% L1
+%это неповтор€ющиес€ элементы исходного списка, а элемент списка L2 с
+%номером i показывает, сколько раз элемент списка L1 с таким номером
+%повтор€етс€ в исходном.
+
+
+subtract1([], _, []) :- !.
+subtract1([E|T], D, R) :- member(E, D), !,  subtract1(T, D, R).
+
+subtract1([H|T], D, [H|R]) :- subtract1(T, D, R).
+
+countOfNum(_, [], 0).
+countOfNum(X, [H|T], N):- X == H, countOfNum(X, T, N1),  N is N1+1; countOfNum(X, T, N).
+
+numOfRep(L,[],[H1|T1]):-!.
+numOfRep(L,[H|T],[H1|T1]):-countOfNum(H,L,COUNT),H1 is COUNT,numOfRep(L,T,T1).
+
+
+
+newListsLL(L,X,Y):-subtract1(L,X,L2),lenght(X,N1),numOfRep(L,X,Y),lenght(Y,N2).
+
+
+newListsLLN(L,X,Y):-newListsLL(L,X,Y).
+

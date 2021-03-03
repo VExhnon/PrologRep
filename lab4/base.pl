@@ -274,3 +274,30 @@ abList(L,A,B,X):-A1 is (A - 1),list_el_numb(L,Num,A1),newListA(L,L1,Num),append_
 
 
 abListN(L,A,B,X):-abList(L,A,B,X).
+
+
+% 1.51. ƒл€ введенного списка построить два списка L1 и L2, где элементы
+% L1
+%это неповтор€ющиес€ элементы исходного списка, а элемент списка L2 с
+%номером i показывает, сколько раз элемент списка L1 с таким номером
+%повтор€етс€ в исходном.
+
+
+subtract1([], _, []) :- !.
+subtract1([E|T], D, R) :- member(E, D), !,  subtract1(T, D, R).
+
+subtract1([H|T], D, [H|R]) :- subtract1(T, D, R).
+
+countOfNum(_, [], 0).
+countOfNum(X, [H|T], N):- X == H, countOfNum(X, T, N1),  N is N1+1; countOfNum(X, T, N).
+
+numOfRep(L,[],S):-!.
+numOfRep(L,[H|T],[H1|T1]):-countOfNum(H,L,COUNT),H1 is COUNT,numOfRep(L,T,T1).
+
+
+
+newListsLL(L,X,Y):-subtract1(L,X,L2),lenght(X,N1),numOfRep(L,X,Y),lenght(Y,N2).
+
+
+newListsLLN(L,X,Y):-newListsLL(L,X,Y).
+
