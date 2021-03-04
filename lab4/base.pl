@@ -299,5 +299,20 @@ numOfRep(L,[H|T],[H1|T1]):-countOfNum(H,L,COUNT),H1 is COUNT,numOfRep(L,T,T1).
 newListsLL(L,X,Y):-subtract1(L,X,L2),lenght(X,N1),numOfRep(L,X,Y),lenght(Y,N2).
 
 
+
 newListsLLN(L,X,Y):-newListsLL(L,X,Y).
 
+%1.4
+%ƒан целочисленный массив. ¬ывести индексы массива в том
+%пор€дке, в котором соответствующие им элементы образуют убывающую
+%последовательность.
+
+swap_num([],S,MAX,X):-!.
+swap_num([H|T],[H1|T1],MAX,X) :-(H =:= MAX -> H1 is X,swap_num(T,T1,MAX,X);H1 is H,swap_num(T,T1,MAX,X)).
+
+
+downList([],S,Y,N):-!.
+downList([H|T],N,MIN,[H1|T1]):-N > 0,N1 is (N - 1),max_list_up(L,MAX),list_el_numb(L,MAX,N1),H1 is N1,swap_num(L,L1,MAX,MIN),downList(L1,N1,MIN,T1).
+downList1(L,X):-lenght(L,N),min_list_up(L,MIN),MIN1 is (MIN - 1),downList(L,N,MIN1,X).
+
+downListN(L,X):-downList1(L,X).
