@@ -80,39 +80,124 @@ in_list(Dress,[nata,white,green])),
 
 write(Dress).
 
-pr_drinkk:- Drinks=[_,_],
+
+%Задание 4 На заводе работали три друга: слесарь, токарь и сварщик. Их
+% фамилии Борисов, Иванов и Семенов. У слесаря нет ни братьев, ни сестер.
+%
+%Он
+%самый младший из друзей. Семенов, женатый на сестре Борисова, старше
+%токаря. Назвать фамилии слесаря, токаря и сварщика.
 
 
 
-                ( in_list(Drinks,[water,glass]);
-                in_list(Drinks,[water,jug])),
+pr_fact:- Fact=[_,_,_],
 
-                 ( in_list(Drinks,[milk,glass]);
-                in_list(Drinks,[milk,jug]);
-                in_list(Drinks,[milk,pot])),
+                in_list(Fact, [slesar, _, 0, 0, _]),
+		in_list(Fact, [tokar, _, 1, _, _]),
+		in_list(Fact, [svarschik, _, _, _, _]),
+		in_list(Fact, [_, borisov, _, 1, _]),
+		in_list(Fact, [_, ivanov, _, _, _]),
+		in_list(Fact, [_, semenov, 2, _, borisov]),
 
-                 ( in_list(Drinks,[lemonade,glass]);
-                in_list(Drinks,[lemonade,jug]);
-                 in_list(Drinks,[lemonade,bottle])),
+		write(Fact), !.
 
-
-
-
-                 (((sprava_next([_,lemonade],[_,jug],Drinks);
-                 sleva_next([_,lemonade],[kvass,_],Drinks));
-                 sprava_next([_,lemonade],[kvass,_],Drinks);
-                 sleva_next([_,lemonade],[_,jug],Drinks))),
+%Задание 5 В бутылке, стакане, кувшине и банке находятся молоко,
+%лимонад, квас и вода. Известно, что вода и молоко не в бутылке, сосуд с
+%лимонадом находится между кувшином и сосудом с квасом, в банке - не
+%лимонад и не вода. Стакан находится около банки и сосуда с молоком. Как
+%распределены эти жидкости по сосудам.
 
 
-                (((sprava_next([glass,_],[_,pot],Drinks);
-                 sleva_next([glass,_],[milk,_],Drinks));
-                 sprava_next([glass,_],[milk,_],Drinks);
-                 sleva_next([glass,_],[_,pot],Drinks))),
+pr_drinkk :- Drinks = [_, _, _, _],
+
+		in_list(Drinks, [bottle, _]),
+		in_list(Drinks, [glass, _]),
+		in_list(Drinks, [jug, _]),
+		in_list(Drinks, [pot, _]),
+
+		in_list(Drinks, [_, milk]),
+		in_list(Drinks, [_, lemonade]),
+		in_list(Drinks, [_, kvass]),
+		in_list(Drinks, [_, water]),
+
+		not(in_list(Drinks, [bottle, water])),
+		not(in_list(Drinks, [bottle, milk])),
+
+		next_to([_, lemonade], [jug, _], Drinks),
+		next_to([_, lemonade], [_, kvass], Drinks),
+
+		not(in_list(Drinks, [pot, lemonade])),
+		not(in_list(Drinks, [pot, water])),
+
+		next_to([pot, _], [glass, _], Drinks),
+		next_to([pot, _], [_, milk], Drinks),
+
+		write(Drinks), !.
 
 
-                in_list(Drinks,[glass,s1]),
-		in_list(Drinks,[jug,s2]),
-                in_list(Drinks,[pot,s3]),
-		in_list(Drinks,[bottle,s4]),
-		write(s1),nl,write(s2),nl,write(s3),nl,write(s4).
-	%	write(WHO1),nl,write(WHO2),nl,write(WHO3),nl,write(WHO4).
+%Задание 6 Воронов, Павлов, Левицкий и Сахаров – четыре талантливых
+%молодых человека. Один из них танцор, другой художник, третий-певец, а
+%четвертый-писатель. О них известно следующее: Воронов и Левицкий сидели
+%в зале консерватории в тот вечер, когда певец дебютировал в сольном
+% концерте. Павлов и писатель вместе позировали художнику. Писатель
+% написал
+%биографическую повесть о Сахарове и собирается написать о Воронове.
+%Воронов никогда не слышал о Левицком. Кто чем занимается?
+
+pr_talanted :- Talants = [_, _, _, _],
+
+		in_list(Talants, [voronov, _, cons,levitskiy]),
+		in_list(Talants, [pavlov, _, painting,_]),
+		in_list(Talants, [levitskiy, _, cons, _]),
+		in_list(Talants, [saharov,_,_,_]),
+
+		in_list(Talants, [_, dancer,_,_ ]),
+		in_list(Talants, [_, painter,_,_ ]),
+		in_list(Talants, [_, singer,cons,_]),
+		in_list(Talants, [_, writer, _ ,saharov]),
+
+		not(in_list(Talants, [pavlov, writer,_,_])),
+		not(in_list(Talants, [bottle, milk])),
+
+
+		write(Talants), !.
+
+
+%7Три друга заняли первое, второе, третье места в
+%соревнованиях универсиады. Друзья разной национальности, зовут их по-
+%разному, и любят они разные виды спорта. Майкл предпочитает баскетбол и
+% играет лучше, чем американец. Израильтянин Саймон играет лучше
+% теннисиста. Игрок в крикет занял первое место. Кто является
+% австралийцем?
+%Каким спортом увлекается Ричард?
+
+%NAME, NATIONALITY, POSITION, SPORT, BetterThan
+pr_friends :- Friend = [_, _, _],
+
+    in_list(Friend, [michael,_,_,_,_]),
+    in_list(Friend, [simon,_,_,_,_]),
+    in_list(Friend, [richard,_,_,_,_]),
+
+    in_list(Friend, [_,american,_,_,_]),
+    in_list(Friend, [_,israelite,_,_,_]),
+    in_list(Friend, [_,australian,_,_,_]),
+
+    in_list(Friend, [_,_,1,_,_]),
+    in_list(Friend, [_,_,2,_,_]),
+    in_list(Friend, [_,_,3,_,_]),
+
+    in_list(Friend, [_,_,_,basketball,_]),
+    in_list(Friend, [_,_,_,tennis,_]),
+    in_list(Friend, [_,_,_,cricket,_]),
+
+
+		in_list(Friend, [michael,_,_,basketball,american]),
+                in_list(Friend, [simon,israelite,_,_,tennis]),
+                in_list(Friend, [_,_,1,cricket,_]),
+
+                in_list(Friend,[W1,australian,_,_,_]),
+		in_list(Friend,[richard,_,_,W2,_]),
+
+                write("Australian is "),write(W1),nl,write("Richard plays "),write(W2),nl,
+
+		write(Friend), !.
