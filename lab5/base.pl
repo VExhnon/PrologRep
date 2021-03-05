@@ -218,3 +218,42 @@ pr_friends :- Friend = [_, _, _],
                 write("Australian is "),write(W1),nl,write("Richard plays "),write(W2),nl,
 
 		write(Friend), !.
+%Вариант 3 Три друга – Петр, Роман и Сергей учатся на математическом,
+%физическом и химическом факультетах университета. Если Петр математик,
+% то Сергей не физик. Если Роман не физик, то Петр – математик. Если
+% Сергей
+%не математик, то Роман – химик. Где учится Роман?
+
+pr_friends1 :- Friend1 = [_, _, _],
+
+    in_list(Friend1, [petr,_]),
+    in_list(Friend1, [roman,_]),
+    in_list(Friend1, [sergei,_]),
+
+    in_list(Friend1, [_,math]),
+    in_list(Friend1, [_,chemic]),
+    in_list(Friend1, [_,physics]),
+
+      (not(in_list(Friend1,[roman,physics])) ->in_list(Friend1,[petr,math]);
+     in_list(Friend1,[petr,chemic]), in_list(Friend1,[roman,physics])),
+
+
+    (in_list(Friend1,[petr,math]) -> not(in_list(Friend1,[sergei,physics]));
+     in_list(Friend1,[sergei,math]), not(in_list(Friend1,[petr,math]))),
+
+
+
+    (not(in_list(Friend1,[sergei,math])) -> in_list(Friend1,[roman,chemic]);
+     not(in_list(Friend1,[roman,chemic])),in_list(Friend1,[sergei,math])),
+
+
+
+
+
+
+
+     in_list(Friend1,[roman,WH]),
+
+     write(WH),nl,
+
+     write(Friend1),!.

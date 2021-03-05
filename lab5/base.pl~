@@ -146,7 +146,7 @@ pr_drinkk :- Drinks = [_, _, _, _],
 
 pr_tal :- Talants = [_, _, _, _],
 
- in_list(Talants, [voronov, _, _,_]),
+                in_list(Talants, [voronov, _, _,_]),
 		in_list(Talants, [pavlov, _, _,_]),
 		in_list(Talants, [levitskiy, _, _, _]),
 		in_list(Talants, [saharov,_,_,_]),
@@ -160,22 +160,21 @@ pr_tal :- Talants = [_, _, _, _],
 
 
 
-                in_list(Talants, [voronov, _, cons,levitskiy]),
-		in_list(Talants, [pavlov, _, painting,_]),
+                in_list(Talants, [voronov, _, cons,writer]),
+		in_list(Talants, [pavlov, _, _,painter]),
 		in_list(Talants, [levitskiy, _, cons, _]),
+                in_list(Talants, [saharov,_,_,writer]),
 
 
-		in_list(Talants, [_, singer,concert,_]),
-		in_list(Talants, [_, writer, painting ,saharov]),
+		in_list(Talants, [_, singer,cons,_]),
+		in_list(Talants, [_, writer, _,painter]),
 
-                not(in_list(Talants, [voronov, singer,_,_])),
+
                 not(in_list(Talants, [levitskiy, singer,_,_])),
 
                 not(in_list(Talants, [pavlov, writer,_,_])),
 
 
-		not(in_list(Talants, [saharov, writer,_,_])),
-                not(in_list(Talants, [voronov, writer,_,_])),
 
 
 
@@ -219,3 +218,42 @@ pr_friends :- Friend = [_, _, _],
                 write("Australian is "),write(W1),nl,write("Richard plays "),write(W2),nl,
 
 		write(Friend), !.
+%Вариант 3 Три друга – Петр, Роман и Сергей учатся на математическом,
+%физическом и химическом факультетах университета. Если Петр математик,
+% то Сергей не физик. Если Роман не физик, то Петр – математик. Если
+% Сергей
+%не математик, то Роман – химик. Где учится Роман?
+
+pr_friends1 :- Friend1 = [_, _, _],
+
+    in_list(Friend1, [petr,_]),
+    in_list(Friend1, [roman,_]),
+    in_list(Friend1, [sergei,_]),
+
+    in_list(Friend1, [_,math]),
+    in_list(Friend1, [_,chemic]),
+    in_list(Friend1, [_,physics]),
+
+      (not(in_list(Friend1,[roman,physics])) ->in_list(Friend1,[petr,math]);
+     not(in_list(Friend1,[petr,math])), in_list(Friend1,[roman,physics])),
+
+
+    (in_list(Friend1,[petr,math]) -> not(in_list(Friend1,[sergei,physics]));
+     in_list(Friend1,[sergei,physics]), not(in_list(Friend1,[petr,math]))),
+
+
+
+    (not(in_list(Friend1,[sergei,math])) -> in_list(Friend1,[roman,chemic]);
+     not(in_list(Friend1,[roman,chemic])),in_list(Friend1,[sergei,math])),
+
+
+
+
+
+
+
+     in_list(Friend1,[roman,WH]),
+
+     write(WH),nl,
+
+     write(Friend1),!.
