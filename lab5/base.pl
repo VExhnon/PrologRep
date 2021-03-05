@@ -144,24 +144,41 @@ pr_drinkk :- Drinks = [_, _, _, _],
 %биографическую повесть о Сахарове и собирается написать о Воронове.
 %Воронов никогда не слышал о Левицком. Кто чем занимается?
 
-pr_talanted :- Talants = [_, _, _, _],
+pr_tal :- Talants = [_, _, _, _],
 
-		in_list(Talants, [voronov, _, cons,levitskiy]),
-		in_list(Talants, [pavlov, _, painting,_]),
-		in_list(Talants, [levitskiy, _, cons, _]),
+                in_list(Talants, [voronov, _, _,_]),
+		in_list(Talants, [pavlov, _, _,_]),
+		in_list(Talants, [levitskiy, _, _, _]),
 		in_list(Talants, [saharov,_,_,_]),
 
 		in_list(Talants, [_, dancer,_,_ ]),
 		in_list(Talants, [_, painter,_,_ ]),
-		in_list(Talants, [_, singer,cons,_]),
-		in_list(Talants, [_, writer, _ ,saharov]),
+		in_list(Talants, [_, singer,_,_]),
+		in_list(Talants, [_, writer, _ ,_]),
 
-		not(in_list(Talants, [pavlov, writer,_,_])),
-		not(in_list(Talants, [bottle, milk])),
+
+
+
+
+                in_list(Talants, [voronov, _, cons,writer]),
+		in_list(Talants, [pavlov, _, _,painter]),
+		in_list(Talants, [levitskiy, _, cons, _]),
+                in_list(Talants, [saharov,_,_,writer]),
+
+
+		in_list(Talants, [_, singer,cons,_]),
+		in_list(Talants, [_, writer, _,painter]),
+
+
+                not(in_list(Talants, [levitskiy, singer,_,_])),
+
+                not(in_list(Talants, [pavlov, writer,_,_])),
+
+
+
 
 
 		write(Talants), !.
-
 
 %7Три друга заняли первое, второе, третье места в
 %соревнованиях универсиады. Друзья разной национальности, зовут их по-
