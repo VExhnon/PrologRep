@@ -1,0 +1,318 @@
+read_list(0,[]):-!.
+read_list(N,[Head|Tail]):-read(Head),N1 is N-1,read_list(N1,Tail).
+
+
+write_list([]):-!.
+write_list([H/T]):-write(H),write_list(T).
+
+
+
+sum_ls_down([], Sum, Sum) :- !.
+sum_ls_down([Head|Tail], CurSum, Sum) :- CurSum1 is CurSum + Head, sum_ls_down(Tail, CurSum1, Sum).
+
+
+sum_ls_up([],0) :- !.
+sum_ls_up([Head|Tail], Sum) :- sum_ls_up(Tail,Sum1),Sum is (Sum1 + Head).
+
+
+%Задание 4 Построить предикат, list_el_numb(+List, ?Elem, ?Number). Если
+%задано значение Elem, то предикат записывает в Number номер первого
+%вхождения Elem. Если задано значение Number, то предикат записывает в
+%Elem значение, находящееся в списке под номером Number. Если заданы
+%оба значения, то предикат проверяет, находится ли элемент Elem в списке
+%под номером Numb.
+
+
+list_el_numb([H|_],H,N,N):-!.
+list_el_numb([_|T],L,X,N):-X1 is X+1,list_el_numb(T,L,X1,N).
+list_el_numb(List,L,N):-list_el_numb(List,L,0,N).
+
+%Задание 4 Реализовать программу, которая читает список, читает элемент
+%и находит номер первого вхождения элемента в список. В случае, если
+%элемент
+%отсутствует,
+%пользователю
+%выводится
+%соответствующее
+%сообщение. Воспользоваться предикатами из заданий 1 и 3
+
+
+pr4_2:-write("Введите N: "),
+       read(N),nl,write("Введите List"),
+       read_list(N,List),nl,
+       write("Введите элемент: "),
+       read(L),nl,
+       list_el_numb(List,L,Numb),
+       write(Numb),!;
+       write("Нет элемента").
+
+%Задание 5 Реализовать программу, которая читает список, читает номер
+%элемента и находит соответствующий элемент. В случае, если номер
+%некорректный, пользователю выводится соответствующее сообщение.
+
+
+pr5:-  write("Введите N: "),
+       read(N),nl,
+       write("Введите List"),
+       read_list(N,List),nl,
+       write("Введите номер элемента: "),
+       read(Numb),nl,
+       list_el_numb(List,L,Numb),
+       write(L),!.
+
+pr5:- write("Нет элемента под таким номером(").
+
+
+%Задание 6 Реализовать предикат min_list_up(+List, ?Min), который
+%записывает минимальный элемент списка List в переменную Min или
+%проверяет, является ли значение в переменной Min минимальным
+%элементом в списке List. Реализацию провести рекурсией вверх.
+
+
+min_list_up([H], H):-!.
+min_list_up([H|T], Min):-min_list_up(T,Min1),(H < Min1 -> Min is H;Min is Min1).
+
+
+%Задание 7 Реализовать предикат min_list_down(+List, ?Min), который
+%записывает минимальный элемент списка List в переменную Min или
+%проверяет, является ли значение в переменной Min минимальным
+%элементом в списке List. Реализацию провести рекурсией вниз.
+
+
+min_list_down([],Min,Min):-!.
+min_list_down([H|T],X,Min):-(H < X -> X1 is H; X1 is X),min_list_down(T,X1,Min).
+min_list_down([H|T],Min):- min_list_down(T,H,Min).
+
+
+%Задание 8 Реализовать программу, которая читает список, находит и
+%выводит
+%на
+%экран
+%его
+%минимальный
+%предикатами из заданий 1, 6 или 7
+
+pr8:-write("Количество элементов списка: "),
+       read(N),nl,
+       write("Введите список"),
+       read_list(N,List),
+       min_list_down(List,Min),
+       write("Минимальный элемент списка: "),
+       write(Min),!.
+
+pr8:-write("Список пустой!").
+
+
+%Задание 9 Построить предикат, который возвращает true, если элемент
+%есть в списке.
+
+member(X,[X|_]):-!.
+member(X,[_|T]):-member(X,T).
+
+
+%Задание 10 Построить предикат, который переворачивает список.
+
+
+reverse(L):-reverse(L,[],Answ).
+reverse([],InvL,InvL):-!.
+reverse([H|T],CurList,InvL):-reverse(T,[H|CurList],InvL).
+
+
+%Задание 11 Построить предикат p(Sublist,List), который возвращает true,
+%если элементы Sublist встречается в List в том же порядке.
+
+sub_list([],_):-!.
+sub_list([H|TS],[H|TL]):-sub_list(TS,TL).
+
+p(S,L):-sub_list(S,L),!.
+p(S,[_|T]):-p(S,T).
+
+
+%Задание 12 Построить предикат, который удаляет элемент с заданным
+%номером из списка.
+
+del_num(0,[_|T],T):- !.
+del_num(X,[Head|T1],[Head|T2]) :- X1 is X-1,del_num(X1,T1,T2).
+
+%Задание 13 Построить предикат, который удаляет все элементы, равные
+%данному.
+
+rem_num([],_,[]).
+rem_num([H|T],H,T1):-!,rem_num(T,H,T1).
+rem_num([H|T],X,[H|T1]):-rem_num(T,X,T1).
+
+
+%Задание 14 Построить предикат, который проверяет, встречаются ли все
+%элементы в списке ровно 1 раз.
+
+aloneCheck([]):-!.
+aloneCheck(_,[]):-!.
+aloneCheck(X,[H|T]):- not(X =:= H),aloneCheck(X,T).
+aloneCheck([H|T]):-aloneCheck(H,T),aloneCheck(T).
+
+
+%Задание 15 Построить предикат, который строит новый список,
+%составленный из уникальных элементов введенного, то есть убирает все
+%повторы, например из списка [1,1,2,3,3,3] получает список [1,2,3].
+
+simplification([],[]):-!.
+simplification([H|T],T1):-member(H,T),simplification(T,T1),!.
+simplification([H|T],[H|T1]):-not(member(H,T)),simplification(T,T1),!.
+
+
+
+%Задание 16 Построить предикат, который получает для данного элемента
+%количество раз, которое он встречается в списке.
+
+kolNum([],_,N,N):-!.
+kolNum([H|T],X,N,Y):- (H =:= X -> N1 is (N + 1),kolNum(T,X,N1,Y);N1 is N,kolNum(T,X,N1,Y)).
+kolNum(L,X,Y):-kolNum(L,X,0,Y).
+
+
+%Задание 17 Построить предикат, получающий длину списка.
+
+lenght([],0).
+lenght([_|T],X):-lenght(T,X1),X is (X1 + 1).
+
+
+%1.3
+%Дан целочисленный массив и натуральный индекс (число, меньшее
+%размера массива). Необходимо определить является ли элемент по
+%указанному индексу глобальным максимумом.
+max_list_up([H], H):-!.
+max_list_up([H|T], Max):-max_list_up(T,Max1),(H > Max1 -> Max is H;Max is Max1).
+
+maxOrNot(L,X):-max_list_up(L,Max),list_el_numb(L,Max,X).
+maxOrNotT(L,X):-maxOrNot(L,X).
+
+
+%1.13 Дан целочисленный массив. Необходимо разместить элементы,
+%расположенные до минимального, в конце массива.
+
+
+
+er_el([], []):-!.
+er_el([H|T], [H1|T1],G):-T1 is T,G is T1,!.
+eraseList(L,L1,N):-(N > 0 -> er_el(L,L1,G),N1 is (N - 1),eraseList(L,L1,N1);!).
+
+append_ls([], X, X).
+append_ls([H|T1], X, [H|T2]) :- append_ls(T1, X, T2).
+
+newListMin([],L1,Min):-L1 is [],!.
+newListMin([H|T],[H1|T1],Min):-(H =:= Min -> !;H1 is H,newListMin(T,T1,Min)).
+
+minEnd(L,X):-min_list_up(L,Min),list_el_numb(L,Min,N),newListMin(L,L1,Min),append_ls(L1,L2,L),append_ls(L2,L1,X).
+
+
+minAtEnd(L,X):-minEnd(L,X).
+
+
+%1.15 Дан целочисленный массив и натуральный индекс (число, меньшее
+%размера массива). Необходимо определить является ли элемент по
+%указанному индексу локальным минимумом.
+
+min_list_up([H], H):-!.
+min_list_up([H|T], Min):-min_list_up(T,Min1),(H < Min1 -> Min is H;Min is Min1).
+
+minOrNot(L,X):-min_list_up(L,Min),list_el_numb(L,Min,X).
+minOrNotT(L,X):-minOrNot(L,X).
+
+
+
+%1.27 Дан целочисленный массив. Необходимо осуществить циклический
+%сдвиг элементов массива влево на одну позицию.
+
+
+sw([],L,L).
+sw([H|T],L,[H|L1]):-sw(T,L,L1).
+
+sdLeft([],[]).
+sdLeft([H|T],L):-sw(T,[H],L).
+
+
+%1.30Дан целочисленный массив и натуральный индекс (число, меньшее
+%размера массива). Необходимо определить является ли элемент по
+%указанному индексу локальным максимумом.
+
+max_list_up([H], H):-!.
+max_list_up([H|T], Max):-max_list_up(T,Max1),(H > Max1 -> Max is H;Max is Max1).
+
+maxOrNot(L,X):-max_list_up(L,Max),list_el_numb(L,Max,X).
+maxOrNotT(L,X):-maxOrNot(L,X).
+
+%1.39 Дан целочисленный массив. Необходимо вывести вначале его
+%элементы с четными индексами, а затем - с нечетными.
+
+
+%0,2,4,6...
+chet([],[]).
+chet([H|[]],[H]).
+chet([H,_|T],[H|T1]):-chet(T,T1).
+
+nechet([],[]).
+nechet([H|[]],[]).
+nechet([_,H|T],[H|T1]):-nechet(T,T1).
+
+cnc(L,X):-chet(L,L1),nechet(L,L2),append_ls(L1,L2,X),!.
+
+cncN(L,X):-cnc(L,X).
+
+
+%1.45 Дан целочисленный массив и интервал a..b. Необходимо найти
+%сумму элементов, значение которых попадает в этот интервал.
+
+newListA([],L1,A):-L1 is [],!.
+newListA([H|T],[H1|T1],A):-(H =:= A -> !;H1 is H,newListA(T,T1,A)).
+
+
+newSummB(L,0,CurX,X):-X is 0,!.
+newSummB([H|T],AB,CurX,X):-AB1 is (AB - 1),(AB1 >= 0 -> newSummB(T,AB1,CurX1,X1),X is (X1 + H);!).
+
+
+abList(L,A,B,X):-A1 is (A - 1),list_el_numb(L,Num,A1),newListA(L,L1,Num),append_ls(L1,L2,L),append_ls(L2,L1,L3),AB is (B - A + 1)
+,CurX is 0,newSummB(L3,AB,CurX,X).
+
+
+abListN(L,A,B,X):-abList(L,A,B,X).
+
+
+% 1.51. Для введенного списка построить два списка L1 и L2, где элементы
+% L1
+%это неповторяющиеся элементы исходного списка, а элемент списка L2 с
+%номером i показывает, сколько раз элемент списка L1 с таким номером
+%повторяется в исходном.
+
+
+subtract1([], _, []) :- !.
+subtract1([E|T], D, R) :- member(E, D), !,  subtract1(T, D, R).
+
+subtract1([H|T], D, [H|R]) :- subtract1(T, D, R).
+
+countOfNum(_, [], 0).
+countOfNum(X, [H|T], N):- X == H, countOfNum(X, T, N1),  N is N1+1; countOfNum(X, T, N).
+
+numOfRep(L,[],S):-!.
+numOfRep(L,[H|T],[H1|T1]):-countOfNum(H,L,COUNT),H1 is COUNT,numOfRep(L,T,T1).
+
+
+
+newListsLL(L,X,Y):-subtract1(L,X,L2),lenght(X,N1),numOfRep(L,X,Y),lenght(Y,N2).
+
+
+
+newListsLLN(L,X,Y):-newListsLL(L,X,Y).
+
+%1.4
+%Дан целочисленный массив. Вывести индексы массива в том
+%порядке, в котором соответствующие им элементы образуют убывающую
+%последовательность.
+
+swap_num([],S,MAX,X):-!.
+swap_num([H|T],[H1|T1],MAX,X) :-(H =:= MAX -> H1 is X,swap_num(T,T1,MAX,X);H1 is H,swap_num(T,T1,MAX,X)).
+
+
+downList([],S,Y,N):-!.
+downList([H|T],N,MIN,[H1|T1]):-N > 0,N1 is (N - 1),max_list_up(L,MAX),list_el_numb(L,MAX,N1),H1 is N1,swap_num(L,L1,MAX,MIN),downList(L1,N1,MIN,T1).
+downList1(L,X):-lenght(L,N),min_list_up(L,MIN),MIN1 is (MIN - 1),downList(L,N,MIN1,X).
+
+downListN(L,X):-downList1(L,X).
