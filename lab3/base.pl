@@ -22,6 +22,7 @@ fibN(N, X) :- fib(N, 1, 1, X).
 numbers(0,0):-!.
 numbers(X,Y):-X1 is (X mod 10),X2 is (X div 10),numbers(X2,Y1),Y is Y1+X1.
 
+<<<<<<< Updated upstream
 numbers(0, CurX, CurX) :- !.
 numbers(Y, CurX, X) :- Mod is Y mod 10, Y1 is Y div 10, CurX1 is CurX + Mod, numbers(Y1, CurX1, X).
 numbers1(Y, X) :- numbers(Y, 0, X).
@@ -87,3 +88,10 @@ colatzN(MAX,MAX,10000):-!.
 colatzN(MAX,MAXN,NUM):-NUM1 is (NUM + 1),colatz(NUM1,N),(N > MAX -> MAX1 is N,colatzN(MAX1,MAXN,NUM1);colatzN(MAX,MAXN,NUM1)).
 colatzN1(MAX,MAXN,NUM):- colatzN(MAX,MAXN,NUM),write(MAXN).
 
+=======
+
+
+minn(X,Y):-X<Y,X is X;Y<X,Y=:=X,X is X.
+minumb(0,0):-!.
+minumb(X,Y):-X1 is (X mod 10),X2 is (X div 10),minn(X1,(X2 mod 10)), minumb(X2,Y),Y is X1.
+>>>>>>> Stashed changes
