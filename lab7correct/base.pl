@@ -30,7 +30,7 @@ pr1:-write("Enter your str: "),
      write("1: "),
      writeStr(S),nl,
      write("2: "),
-     writeStr(S),nl,6
+     writeStr(S),nl,
      write("3: "),
      writeStr(S),nl,
      write("Count of numbers: "),
@@ -39,10 +39,12 @@ pr1:-write("Enter your str: "),
 
 
 %2 Дана строка. Найти количество слов.
-numbOfWords(0,0,Count):-Count is 1,!.
-numbOfWords([H|T],CurCount,Count):-(H =:= 32 -> CurCount is 1, numbOfWords(T,CorCount1,Count1), Count is (Count1 + CurCount);(H =:= 10 -> numbOfWords(0,0,Count);numbOfWords(T,CurCount,Count))).
+numbOfWords([],_,Count):-Count is 1,!.
 
-numbOfWordsN(S,Count):-S = [H|T],(H =:= 10 -> Count is 0;numbOfWords(S,CurCount,Count)).
+numbOfWords([H|T],CurCount,Count):-(H =:= 32 -> CurCount is 1, numbOfWords(T,CurCount1,Count1), Count is (Count1 + CurCount);
+                                   numbOfWords(T,CurCount,Count)).
+numbOfWordsN([],Count):-Count is 0,!.
+numbOfWordsN(S,Count):-numbOfWords(S,CurCount,Count).
 
 
 
@@ -51,3 +53,24 @@ pr2:-write("Enter your str: "),
      numbOfWordsN(S,Count),
      write("Count of wors: "),
      write(Count).
+
+
+%3 Дана строка, определить самое частое слово
+pr3.
+
+%4 Дана строка. Вывести первые три символа и последний три символа,
+%если длина строки больше 5 Иначе вывести первый символ столько
+%раз, какова длина строки.
+
+countViv(S,0):-!.
+countViv(S,C):-C > 0,S = [H|T],write(H),C1 is (C - 1),countViv(T,C1).
+
+viv(S,C):-(C > 5 -> firSec(S,C);countViv(S,C)).
+
+
+pr4:-write("Enter your str: "),
+     readStr(S),nl,
+     countN(S,C),
+     viv(S,C).
+
+
