@@ -62,15 +62,21 @@ pr3.
 %если длина строки больше 5 Иначе вывести первый символ столько
 %раз, какова длина строки.
 
-countViv(S,0):-!.
-countViv(S,C):-C > 0,S = [H|T],write(H),C1 is (C - 1),countViv(T,C1).
+countViv(S,-1,S1):-!.
+countViv(S,C,S1):-C >= 0,S = [H|T],S1 = [H1|T1],H1 is H,C1 is (C - 1),countViv(S,C1,T1).
 
-viv(S,C):-(C > 5 -> firSec(S,C);countViv(S,C)).
+newStr3(T,3,T1):-T1 = T,!.
+newStr3(T,CN,T1):-T = [H|TT],countN(TT,CCN),newStr3(TT,CCN,T1).
+
+firSec(S,C,S1):-[H1|[H2|[H3|T]]] = S,newStr3(T,C,T1),append([H1,H2,H3],T1,S1).
+
+viv(S,C,S1):-(C > 5 ->(C =:= 6 ->S1 = S;firSec(S,C,S1));countViv(S,C,S1)).
 
 
 pr4:-write("Enter your str: "),
      readStr(S),nl,
      countN(S,C),
-     viv(S,C).
+     viv(S,C,S1),
+     writeStr(S1).
 
 
