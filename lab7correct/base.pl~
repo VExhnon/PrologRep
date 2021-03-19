@@ -227,8 +227,8 @@ chetStr([],[]).
 chetStr([H|[]],[H]).
 chetStr([H,_|T],[H|T1]):-chetStr(T,T1).
 
-zamenaStr(S,0,S1):-!.
-zamenaStr(S,C,S1):-С > 0,S = [H|T],S1 = [H1|T1], (((H =\= 97),(H =\= 98)) -> H1 is 97,C1 is (C - 1),zamenaStr(T,C1,T1);H1 is 99,C1 is (C - 1),zamenaStr(T,C1,T1)).
+zamenaStr(_,0,_):-!.
+zamenaStr(S,C,S1):-C > 0,S = [H|T],S1 = [H1|T1], (((H =\= 97),(H =\= 98)) -> H1 is 97,C1 is (C - 1),zamenaStr(T,C1,T1);H1 is 99,C1 is (C - 1),zamenaStr(T,C1,T1)).
 
 
 pr13:-write("Enter your str: "),
@@ -240,3 +240,15 @@ pr13:-write("Enter your str: "),
 
      writeStr(S2).
 
+
+%14 В данной строке найти количество цифр.
+
+countNumb([], CurCount, Count) :-CurCount is 0, !.
+countNumb([H|T], CurCount, Count) :-((H > 47) -> ((H < 58) -> countNumb(T, CurCount1, Count),Count is (CurCount1 + 1);countNumb(T, CurCount1, Count)); countNumb(T, CurCount1, Count)).
+
+pr14:-write("Enter your str: "),
+     readStr(S),nl,
+
+     countNumb(S,C1,C),
+
+     write(C).

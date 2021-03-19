@@ -240,3 +240,15 @@ pr13:-write("Enter your str: "),
 
      writeStr(S2).
 
+
+%14 В данной строке найти количество цифр.
+
+countNumb([], Count) :-Count is 0, !.
+countNumb([H|T], Count) :-(((H > 47),(H < 58)) -> countNumb(T, Count1),Count is (Count1 + 1);countNumb(T, Count)).
+
+pr14:-write("Enter your str: "),
+     readStr(S),nl,
+
+     countNumb(S,C),
+
+     write(C).
