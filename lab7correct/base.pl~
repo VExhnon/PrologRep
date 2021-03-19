@@ -164,7 +164,7 @@ pr8:-write("Enter your str: "),
 %сколько символов отличаются строки.
 
 repeatStr(_,0):-!.
-repeatStr(S,C):-C > 0,writeStr(S),C1 is (C - 1),repeatStr(S,C1).
+repeatStr(S,C):-C > 0,writeStr(S),nl,C1 is (C - 1),repeatStr(S,C1).
 
 pr9:-write("Enter your str first: "),
      readStr(S1),nl,
@@ -174,4 +174,69 @@ pr9:-write("Enter your str first: "),
      countN(S2,C2),
      (C1 > C2 -> C3 is (C1 - C2),repeatStr(S1,C3);C3 is (C2 - C1),repeatStr(S2,C3)).
 
+
+
+
+%10 Дана строка. Если она начинается на 'abc', то заменить их на 'www',
+%иначе добавить в конец строки 'zzz'.
+
+
+pr10:-write("Enter your str: "),
+     readStr(S),nl,
+     countN(S,C).
+
+
+%11 Дана строка. Если ее длина больше 10, то оставить в строке только
+%первые 6 символов, иначе дополнить строку символами 'o' до длины
+%12
+% ДОДЕЛАТЬ!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+% !!
+
+first6Str(S,0,S1):-!.
+first6Str(S,C,S1):-C > 0,S = [H|T],S1 = [H1|T1],H1 is H,C1 is (C - 1),first6Str(T,C1,T1).
+
+
+strWith12o(_,C,0,S1):-!.
+strWith12o(S,C,C2,S1):-C2 > 0,(C > 0 ->S = [H|T],S1 = [H1|T1], H1 is H, C1 is (C - 1),C3 is (C2 - 1),strWith12o(T,C1,C3,T1);S = [H|T],S1 = [H1|T1],H1 is 111, C1 is (C - 1),C3 is (C2 - 1),strWith12o(T,C1,C3,T1)).
+
+pr11:-write("Enter your str: "),
+     readStr(S),nl,
+     countN(S,C),
+     (C > 10 -> C1 is 6,first6Str(S,C1,S1);C2 is 12,strWith12o(S,C,C2,S1)),
+     writeStr(S1).
+
+
+
+%12 Дана строка. Разделить строку на фрагменты по три подряд идущих
+%символа. В каждом фрагменте средний символ заменить на случай-
+%ный символ, не совпадающий ни с одним из символов этого фраг-
+%мента. Показать фрагменты, упорядоченные по алфавиту.
+
+
+pr12:-write("Enter your str: "),
+     readStr(S),nl,
+     countN(S,C).
+
+
+%13 Дана строка. Заменить каждый четный символ или на 'a', если символ
+%не равен 'a' или 'b', или на 'c' в противном случае.
+%a = 97  b = 98
+
+
+chetStr([],[]).
+chetStr([H|[]],[H]).
+chetStr([H,_|T],[H|T1]):-chetStr(T,T1).
+
+zamenaStr(S,0,S1):-!.
+zamenaStr(S,C,S1):-С > 0,S = [H|T],S1 = [H1|T1], (((H =\= 97),(H =\= 98)) -> H1 is 97,C1 is (C - 1),zamenaStr(T,C1,T1);H1 is 99,C1 is (C - 1),zamenaStr(T,C1,T1)).
+
+
+pr13:-write("Enter your str: "),
+     readStr(S),nl,
+     chetStr(S,S1),
+     countN(S1,C),
+
+     zamenaStr(S1,C,S2),
+
+     writeStr(S2).
 
