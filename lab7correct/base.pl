@@ -1,5 +1,7 @@
 %1 Дана строка. Вывести ее три раза через запятую и показать количе-
 %ство символов в ней.
+write_list([]):-!.
+write_list([H/T]):-write(H),write_list(T).
 
 readStr(A) :-
   get0(X),
@@ -117,5 +119,23 @@ pr6:-write("Enter your str: "),
      readStr(S),nl,
      countN(S,C),
      strMod3(S,C,0,S1),
-     writeStr(S1).
+     write_list(S1).
 
+
+%7 Дана строка. Определите общее количество символов '+' и '-' в ней. А
+%так же сколько таких символов, после которых следует цифра ноль.
+
+
+
+%8 Дана строка. Определите, какой символ в ней встречается раньше: 'x'
+%или 'w'. Если какого-то из символов нет, вывести сообщение об этом.
+%w - 119      x - 120
+strWX(_,0,S1):-S1 is 0,!.
+strWX(S,C,S1):-C > 0,S = [H|T],(H =:= 119 -> S1 is 119,!;(H =:= 120 -> S1 is 120,!;C1 is (C - 1),strWX(T,C1,S1))).
+
+
+pr8:-write("Enter your str: "),
+     readStr(S),nl,
+     countN(S,C),
+     strWX(S,C,S1),
+     (S1 =:= 0-> write("No X or W in list");(S1 =:= 119 -> write("First in list is 'w'");write("First in list is 'x'"))).
