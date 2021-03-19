@@ -163,4 +163,15 @@ pr8:-write("Enter your str: "),
 %9 Даны две строки. Вывести большую по длине строку столько раз, на
 %сколько символов отличаются строки.
 
+repeatStr(_,0):-!.
+repeatStr(S,C):-C > 0,writeStr(S),nl,C1 is (C - 1),repeatStr(S,C1).
+
+pr9:-write("Enter your str first: "),
+     readStr(S1),nl,
+     write("Enter your str second: "),
+     readStr(S2),nl,
+     countN(S1,C1),
+     countN(S2,C2),
+     (C1 > C2 -> C3 is (C1 - C2),repeatStr(S1,C3);C3 is (C2 - C1),repeatStr(S2,C3)).
+
 
