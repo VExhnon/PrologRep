@@ -252,3 +252,17 @@ pr14:-write("Enter your str: "),
      countNumb(S,C),
 
      write(C).
+
+
+
+%15 Дана строка. Определить, содержит ли строка только символы 'a', 'b',
+%'c' или нет.
+%a = 97
+
+abcStr([]):-!.
+abcStr(S):-S = [H|T],(((H =:= 97)|(H =:= 98)|(H =:= 99)) -> abcStr(T);fail).
+
+
+pr15:-write("Enter your str: "),
+     readStr(S),nl,
+     abcStr(S).
