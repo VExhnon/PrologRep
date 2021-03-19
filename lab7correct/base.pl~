@@ -70,7 +70,7 @@ newStr3(T,CN,T1):-T = [H|TT],countN(TT,CCN),newStr3(TT,CCN,T1).
 
 firSec(S,C,S1):-[H1|[H2|[H3|T]]] = S,newStr3(T,C,T1),append([H1,H2,H3],T1,S1).
 
-viv(S,C,S1):-(C > 5 ->(C =:= 6 ->S1 is S;firSec(S,C,S1));countViv(S,C,S1)).
+viv(S,C,S1):-(C > 5 ->(C =:= 6 ->S1 = S;firSec(S,C,S1));countViv(S,C,S1)).
 
 
 pr4:-write("Enter your str: "),
@@ -79,4 +79,21 @@ pr4:-write("Enter your str: "),
      viv(S,C,S1),
      writeStr(S1).
 
+%5 Дана строка. Показать номера символов, совпадающих с последним
+%символом строки.
 
+lastNumber(S,1,IND):-IND = S,!.
+lastNumber(S,C,IND):-C > 0,C1 is (C - 1),S = [H|T],lastNumber(T,C1,IND).
+
+strIndexes(S,0,IND,S1):-!.
+strIndexes(S,C,IND,S1):-C > 0,S = [H|T],(IND =:= H -> S1 = [H1|T1],CurC is (C-1),H1 is C,strIndexes(T,CurC,IND,T1);CurC is (C-1),strIndexes(T,CurC,IND,S1)).
+
+
+
+pr5:-write("Enter your str: "),
+     readStr(S),nl,
+     countN(S,C),
+     lastNumber(S,C,IND),
+     C1 is (C-1),
+     strIndexes(S,C1,IND,S1),
+     writeStr(S1).
