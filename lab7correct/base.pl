@@ -125,6 +125,25 @@ pr6:-write("Enter your str: "),
 %7 Дана строка. Определите общее количество символов '+' и '-' в ней. А
 %так же сколько таких символов, после которых следует цифра ноль.
 
+countPlMi(_,0,Count):-Count is 0,!.
+countPlMi(S,C,Count):-C > 0,S = [H|T],(((H =:= 43)|(H =:= 45)) ->( C1 is (C - 1),countPlMi(T,C1,Count1),Count is (Count1 + 1));( C1 is (C - 1),countPlMi(T,C1,Count))).
+
+
+countPlMi0(_,0,Count):-Count is 0,!.
+countPlMi0(S,C,Count):-C > 0,S = [H|T],T = [H1|T1],
+                    (((H =:= 43)|(H =:= 45)) ->
+                    ( H1 =:= 48 -> C1 is (C - 1),countPlMi0(T,C1,Count1),Count is (Count1 + 1);C1 is (C - 1),countPlMi0(T,C1,Count));
+                    ( C1 is (C - 1),countPlMi0(T,C1,Count))).
+
+
+
+pr7:-write("Enter your str: "),
+     readStr(S),nl,
+     countN(S,C),
+     countPlMi(S,C,C1),
+     write(C1),nl,
+     countPlMi0(S,C,C2),
+     write(C2).
 
 
 %8 Дана строка. Определите, какой символ в ней встречается раньше: 'x'
@@ -139,3 +158,9 @@ pr8:-write("Enter your str: "),
      countN(S,C),
      strWX(S,C,S1),
      (S1 =:= 0-> write("No X or W in list");(S1 =:= 119 -> write("First in list is 'w'");write("First in list is 'x'"))).
+
+
+%9 Даны две строки. Вывести большую по длине строку столько раз, на
+%сколько символов отличаются строки.
+
+
