@@ -86,7 +86,7 @@ lastNumber(S,1,IND):-IND = S,!.
 lastNumber(S,C,IND):-C > 0,C1 is (C - 1),S = [H|T],lastNumber(T,C1,IND).
 
 strIndexes(S,0,IND,S1):-!.
-strIndexes(S,C,IND,S1):-C > 0,S = [H|T],(IND =:= H -> S1 = [H1|T1],CurC is (C-1),H1 is C,strIndexes(T,CurC,IND,T1);CurC is (C-1),strIndexes(T,CurC,IND,S1)).
+strIndexes(S,C,IND,S1):-C > 0,S = [H|T],(H =:= IND -> S1 = [H1|T1],CurC is (C - 1),H1 is C,strIndexes(T,CurC,IND,T1);CurC is (C - 1),strIndexes(T,CurC,IND,S1)).
 
 
 
