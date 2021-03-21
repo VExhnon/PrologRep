@@ -314,3 +314,24 @@ pr17 :-
   readStr(S),nl,
   xStr(S,[],S1),
   writeStr(S1).
+
+%18 Удалите в строке все 'abc', за которыми следует цифра.
+abcStr([H1,H2,H3],CurS,S):-append(CurS,[H1,H2,H3],S),!.
+abc([H1,H2],CurS,S):-append(CurS,[H1,H2],S),!.
+abc([H1],CurS,S):-append(CurS,[H1],S),!.
+
+
+abcStr([],S,S):-!.
+
+
+abcStr([H1|[H2|[H3|[H4,T]]]],CurS,S):-(((H1 =:= 97, H2 =:=98, H3 =:= 99),(H4 > 47,H4 < 58)) -> (append(CurS,[H4],CurS1),abcStr(T,CurS1,S));(append(CurS,[H1],CurS1),abcStr([H2|[H3|[H4|T]]],CurS1,S))).
+
+
+
+
+pr18:-
+  write("Enter your str: "),
+  readStr(S),nl,
+  abcStr(S,[],S1),
+  writeStr(S1).
+
