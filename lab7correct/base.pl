@@ -266,3 +266,25 @@ abcStr(S):-S = [H|T],(((H =:= 97)|(H =:= 98)|(H =:= 99)) -> abcStr(T);fail).
 pr15:-write("Enter your str: "),
      readStr(S),nl,
      abcStr(S).
+
+
+%16 Замените в строке все вхождения 'word' на 'letter'.
+
+
+wordStr([H1, H2, H3], CurList, List) :- append(CurList, [H1, H2, H3], List), !.
+wordStr([H1, H2], CurList, List) :- append(CurList, [H1, H2], List), !.
+wordStr([H1], CurList, List) :- append(CurList, [H1], List), !.
+wordStr([], List, List) :- !.
+wordStr([H1|[H2|[H3|[H4|T]]]], CurList, List) :-
+  ((H1 = 119, H2 = 111, H3 = 114, H4 = 100) ->
+  (append(CurList, [108, 101, 116, 116, 101, 114], CurList1),
+  wordStr(T, CurList1, List));
+  (append(CurList, [H1], CurList1),
+  wordStr([H2|[H3|[H4|T]]], CurList1, List))).
+wordStr(List, NewList) :- wordStr(List, [], NewList).
+
+pr16 :-
+  write("Str -> "),
+  readStr(S),nl,
+  wordStr(S, S1),
+  writeStr(S1).
