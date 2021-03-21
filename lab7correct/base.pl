@@ -304,7 +304,7 @@ xStr([H1],CurS,S):-append(CurS,[H1],S),!.
 xStr([],S,S):-!.
 
 
-xStr([H1|[H2|[H3|[H4,T]]]],CurS,S):-((H1 =:= 120, H2 =:= 97, H3 =:=98, H4 =:= 99) -> (append(CurS,[H2,H3,H4],CurS1),xStr(T,CurS1,S));(append(CurS,[H1],CurS1),xStr([H2|[H3|[H4|T]]],CurS1,S))).
+xStr([H1|[H2|[H3|[H4|T]]]],CurS,S):-((H1 =:= 120, H2 =:= 97, H3 =:=98, H4 =:= 99) -> (append(CurS,[H2,H3,H4],CurS1),xStr(T,CurS1,S));(append(CurS,[H1],CurS1),xStr([H2|[H3|[H4|T]]],CurS1,S))).
 
 
 
@@ -324,7 +324,7 @@ abc([H1],CurS,S):-append(CurS,[H1],S),!.
 abcStr([],S,S):-!.
 
 
-abcStr([H1|[H2|[H3|[H4,T]]]],CurS,S):-(((H1 =:= 97, H2 =:=98, H3 =:= 99),(H4 > 47,H4 < 58)) -> (append(CurS,[H4],CurS1),abcStr(T,CurS1,S));(append(CurS,[H1],CurS1),abcStr([H2|[H3|[H4|T]]],CurS1,S))).
+abcStr([H1|[H2|[H3|[H4|T]]]],CurS,S):-(((H1 =:= 97, H2 =:=98, H3 =:= 99),(H4 > 47,H4 < 58)) -> (append(CurS,[H4],CurS1),abcStr([H4],CurS1,S));(append(CurS,[H1],CurS1),abcStr([H2|[H3|[H4|T]]],CurS1,S))).
 
 
 
@@ -333,5 +333,47 @@ pr18:-
   write("Enter your str: "),
   readStr(S),nl,
   abcStr(S,[],S1),
+  writeStr(S1).
+
+%19 Ќайдите количество вхождени€ 'aba' в строку.
+
+abaStr([H1,H2,H3],C):-C is 1,!.
+abaStr([H1,H2],C):-C is 0,!.
+abaStr([H1],C):-C is 0,!.
+
+
+abaStr([],C):-C is 0,!.
+
+
+abaStr([H1|[H2|[H3|T]]],C):-((H1 =:= 97, H2 =:=98, H3 =:= 97) -> (abaStr(T,C1),C is (C1 + 1));(abaStr([H2|[H3|T]],C2),C is C2)).
+
+
+
+
+pr19:-
+  write("Enter your str: "),
+  readStr(S),nl,
+  abaStr(S,Count),
+  write(Count).
+
+
+%20 ”далить в строке все лишние пробелы, то есть серии подр€д идущих
+%пробелов заменить на одиночные пробелы.  райние пробелы в строке
+%удалить.
+
+spaceStr([H1], CurList, List) :- append(CurList, [H1], List), !.
+spaceStr([], List, List) :- !.
+spaceStr([H1|[H2|T]], CurList, List) :-
+  ((H1 = 32, H2 = 32) ->
+  (append(CurList, [H2], CurList1),
+  spaceStr([H2|T], CurList1, List));
+  (append(CurList, [H1], CurList1),
+  spaceStr([H2|T], CurList1, List))).
+spaceStr(List, NewList) :- wordStr(List, [], NewList).
+
+pr20 :-
+  write("Enter your str: "),
+  readStr(S),nl,
+  spaceStr(S, S1),
   writeStr(S1).
 
