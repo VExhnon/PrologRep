@@ -283,8 +283,53 @@ wordStr([H1|[H2|[H3|[H4|T]]]], CurList, List) :-
   wordStr([H2|[H3|[H4|T]]], CurList1, List))).
 wordStr(List, NewList) :- wordStr(List, [], NewList).
 
-task16 :-
-  write("Str -> "),
+pr16 :-
+  write("Enter your str: "),
   readStr(S),nl,
   wordStr(S, S1),
   writeStr(S1).
+
+
+
+% 17 Удалите в строке все буквы 'x'. за которыми следует 'abc'.
+% x - 120        a - 97
+
+
+
+xStr([H1,H2,H3],CurS,S):-append(CurS,[H1,H2,H3],S),!.
+xStr([H1,H2],CurS,S):-append(CurS,[H1,H2],S),!.
+xStr([H1],CurS,S):-append(CurS,[H1],S),!.
+
+
+xStr([],S,S):-!.
+
+
+xStr([H1|[H2|[H3|[H4,T]]]],CurS,S):-((H1 =:= 120, H2 =:= 97, H3 =:=98, H4 =:= 99) -> (append(CurS,[H2,H3,H4],CurS1),xStr(T,CurS1,S));(append(CurS,[H1],CurS1),xStr([H2|[H3|[H4|T]]],CurS1,S))).
+
+
+
+
+pr177 :-
+  write("Enter your str: "),
+  readStr(S),nl,
+  xStr(S,[],S1),
+  writeStr(S1).
+rm_x_afterwhich_abc([H1, H2, H3], CurList, List) :- append(CurList, [H1, H2, H3], List), !.
+rm_x_afterwhich_abc([H1, H2], CurList, List) :- append(CurList, [H1, H2], List), !.
+rm_x_afterwhich_abc([H1], CurList, List) :- append(CurList, [H1], List), !.
+rm_x_afterwhich_abc([], List, List) :- !.
+rm_x_afterwhich_abc([H1|[H2|[H3|[H4|T]]]], CurList, List) :-
+  ((H1 = 120, H2 = 97, H3 = 98, H4 = 99) ->
+  (append(CurList, [H2, H3, H4], CurList1),
+  rm_x_afterwhich_abc(T, CurList1, List));
+  (append(CurList, [H1], CurList1),
+  rm_x_afterwhich_abc([H2|[H3|[H4|T]]], CurList1, List))).
+rm_x_afterwhich_abc(List, NewList) :- rm_x_afterwhich_abc(List, [], NewList).
+
+task17 :-
+  write("Str -> "),
+  read_str_nofix(S),
+  rm_x_afterwhich_abc(S, NewS),
+  write("New Str => ["),
+  write_str(NewS),
+  write("]").

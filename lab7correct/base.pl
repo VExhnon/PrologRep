@@ -284,7 +284,33 @@ wordStr([H1|[H2|[H3|[H4|T]]]], CurList, List) :-
 wordStr(List, NewList) :- wordStr(List, [], NewList).
 
 pr16 :-
-  write("Str -> "),
+  write("Enter your str: "),
   readStr(S),nl,
   wordStr(S, S1),
+  writeStr(S1).
+
+
+
+% 17 Удалите в строке все буквы 'x'. за которыми следует 'abc'.
+% x - 120        a - 97
+
+
+
+xStr([H1,H2,H3],CurS,S):-append(CurS,[H1,H2,H3],S),!.
+xStr([H1,H2],CurS,S):-append(CurS,[H1,H2],S),!.
+xStr([H1],CurS,S):-append(CurS,[H1],S),!.
+
+
+xStr([],S,S):-!.
+
+
+xStr([H1|[H2|[H3|[H4,T]]]],CurS,S):-((H1 =:= 120, H2 =:= 97, H3 =:=98, H4 =:= 99) -> (append(CurS,[H2,H3,H4],CurS1),xStr(T,CurS1,S));(append(CurS,[H1],CurS1),xStr([H2|[H3|[H4|T]]],CurS1,S))).
+
+
+
+
+pr17 :-
+  write("Enter your str: "),
+  readStr(S),nl,
+  xStr(S,[],S1),
   writeStr(S1).
