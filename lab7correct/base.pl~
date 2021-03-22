@@ -193,10 +193,19 @@ pr9:-write("Enter your str first: "),
 %10 Дана строка. Если она начинается на 'abc', то заменить их на 'www',
 %иначе добавить в конец строки 'zzz'.
 
+abcEarlyStr([H1|[H2|[H3|T]]]):-(((H1 =:=97),(H2 =:=98),(H3 =:= 99)) -> true;fail).
+
+wwwStr1([],CurS,S1):-append(CurS,[],S1),!.
+wwwStr1([H],CurS,S1):-append(CurS,[H],S1),!.
+wwwStr1([H1|T],CurS,S1):-append(CurS,[H1],CurS1),wwwStr1(T,CurS1,S1).
+
+
+wwwStr([H1|[H2|[H3|T]]],CurS,S1):-append(CurS,[119,119,119],CurS1),wwwStr1(T,CurS1,S1).
 
 pr10:-write("Enter your str: "),
      readStr(S),nl,
-     countN(S,C).
+     (abcEarlyStr(S) -> wwwStr(S,CurS,S1);zzzStr(S,CurS,S1)),
+     writeStr(S1).
 
 
 %11 Дана строка. Если ее длина больше 10, то оставить в строке только
@@ -209,13 +218,17 @@ first6Str(S,0,S1):-!.
 first6Str(S,C,S1):-C > 0,S = [H|T],S1 = [H1|T1],H1 is H,C1 is (C - 1),first6Str(T,C1,T1).
 
 
-strWith12o(_,C,0,S1):-!.
-strWith12o(S,C,C2,S1):-C2 > 0,(C > 0 ->S = [H|T],S1 = [H1|T1], H1 is H, C1 is (C - 1),C3 is (C2 - 1),strWith12o(T,C1,C3,T1);S = [H|T],S1 = [H1|T1],H1 is 111, C1 is (C - 1),C3 is (C2 - 1),strWith12o(T,C1,C3,T1)).
+
+strWith12o(S,0):-!.
+
+
+strWith12o([H|T],C):-C > 0,H is 111,C1 is (C - 1),strWith12o(T,C1).
+
 
 pr11:-write("Enter your str: "),
      readStr(S),nl,
      countN(S,C),
-     (C > 10 -> C1 is 6,first6Str(S,C1,S1);C2 is 12,strWith12o(S,C,C2,S1)),
+     (C > 10 -> C1 is 6,first6Str(S,C1,S1);C2 is 12,C3 is (C2 - C),strWith12o(S2,C3),append(S,S2,S1)),
      writeStr(S1).
 
 
@@ -433,6 +446,6 @@ pr22 :-
   numStr(S, 1, Left),
   numStr(S, Count, Right),
   (F = 1 ->
-  NewS = [Left, Right, ElMid];
+  NewS = [Left, ElMid, Right];
   NewS = [Left, Right]),
   writeStr(NewS).
