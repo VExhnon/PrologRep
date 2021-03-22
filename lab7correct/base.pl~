@@ -21,11 +21,24 @@ countN([_|T], CurCount, Count) :-
 countN(List, Count) :- countN(List, 0, Count).
 
 
+
 writeStr([]) :- !.
 writeStr([H|T]):-
   put(H),
   writeStr(T).
 
+
+numStr([], _, _, _) :- write("There's no element with this num"), !.
+numStr([_], CurNum, Num, _) :-
+  CurNum1 is CurNum + 1,
+  CurNum1 < Num,
+  write("Such element isn\'t found"), !.
+numStr([H|T], CurNum, Num, El) :-
+  CurNum1 is CurNum + 1,
+  ((CurNum1 is Num) ->
+  El is H;
+  numStr(T, CurNum1, Num, El)).
+numStr([H|T], Num, El) :- numStr([H|T], 0, Num, El).
 
 pr1:-write("Enter your str: "),
      readStr(S),nl,
@@ -383,7 +396,8 @@ pr20 :-
 %21 Дана строка, состоящая из слов, разделенных символами, которые пе-
 %речислены во второй строке. Показать все слова.
 
-
+twoStr(S1,[],CurS,S):-append(CurS,S1,S),!.
+twoStr([H1,H2],[],CurS,S):-append(CurS,[H1,H2],S),!.
 twoStr([H1],[],CurS,S):-append(CurS,[H1],S),!.
 
 
@@ -402,3 +416,23 @@ pr21 :-
   readStr(S2),nl,
   twoStr(S1,S2,[],S),
   writeStr(S).
+
+
+%22 Дана строка. Вывести первый, последний и средний (если он есть))
+%символы.
+
+pr22 :-
+  write("Enter your str: "),
+  readStr(S),
+  countN(S, Count),
+  ((0 is Count mod 2) ->
+  (F = 0);
+  (MidN is (1 + Count) / 2,
+  numStr(S, MidN, ElMid),
+  F = 1)),
+  numStr(S, 1, Left),
+  numStr(S, Count, Right),
+  (F = 1 ->
+  NewS = [Left, Right, ElMid];
+  NewS = [Left, Right]),
+  writeStr(NewS).
