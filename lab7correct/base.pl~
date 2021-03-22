@@ -361,19 +361,44 @@ pr19:-
 %пробелов заменить на одиночные пробелы.  райние пробелы в строке
 %удалить.
 
+firstSpaceStr(S,S1):-S = [H|T],(H =:= 32 -> S1 = T;S1 = S).
+
+
+
 spaceStr([H1], CurList, List) :- append(CurList, [H1], List), !.
 spaceStr([], List, List) :- !.
 spaceStr([H1|[H2|T]], CurList, List) :-
-  ((H1 = 32, H2 = 32) ->
-  (append(CurList, [H2], CurList1),
-  space([T], CurList1, List));
-  (append(CurList, [H1], CurList1),
-  spaceStr([H2|T], CurList1, List))).
+  (((H1 =:= 32, H2 =:= 32|(H1 =:= 32, H2 =\= 32)) ->
+  (append(CurList, [H1,H2], CurList1),spaceStr([T], CurList1, List));
+  spaceStr([T], CurList1, List))).
 spaceStr(List, NewList) :- wordStr(List, [], NewList).
 
 pr20 :-
   write("Enter your str: "),
   readStr(S),nl,
-  spaceStr(S, S1),
-  writeStr(S1).
+  firstSpaceStr(S, S1),
+  spaceStr(S1, S2),
+  writeStr(S2).
 
+%21 ƒана строка, состо€ща€ из слов, разделенных символами, которые пе-
+%речислены во второй строке. ѕоказать все слова.
+
+
+twoStr([H1],[],CurS,S):-append(CurS,[H1],S),!.
+
+
+twoStr([],[],S,S):-!.
+
+
+twoStr([H1|[H2|T]],[H11|T1],CurS,S):-((H2 =:= H11) -> (append(CurS,[H1,32],CurS1),twoStr(T,T1,CurS1,S));(append(CurS,[H1],CurS1),twoStr([H2|T],[H11|T1],CurS1,S))).
+
+
+
+
+pr21 :-
+  write("Enter your 1-st str: "),
+  readStr(S1),nl,
+  write("Enter your 2-nd str: "),nl,
+  readStr(S2),nl,
+  twoStr(S1,S2,[],S),
+  writeStr(S).
