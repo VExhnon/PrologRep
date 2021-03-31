@@ -1,4 +1,3 @@
-AA BB AA BB ABC
-AAAAB FF FF D
-BBBC QWE QWE WWE
-FFU FFU FF UU
+red
+white
+blue
