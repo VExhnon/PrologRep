@@ -1,3 +1,6 @@
+
+%21 17 20
+
 %1 ƒана строка. ¬ывести ее три раза через зап€тую и показать количе-
 %ство символов в ней.
 write_list([]):-!.
@@ -389,29 +392,6 @@ pr19:-
   write(Count).
 
 
-%20 ”далить в строке все лишние пробелы, то есть серии подр€д идущих
-%пробелов заменить на одиночные пробелы.  райние пробелы в строке
-%удалить.
-
-firstSpaceStr(S,S1):-S = [H|T],(H =:= 32 -> S1 = T;S1 = S).
-
-
-
-spaceStr([H1], CurList, List) :- append(CurList, [H1], List), !.
-spaceStr([], List, List) :- !.
-spaceStr([H1|[H2|T]], CurList, List) :-
-  (((H1 =:= 32, H2 =:= 32|(H1 =:= 32, H2 =\= 32)) ->
-  (append(CurList, [H1,H2], CurList1),spaceStr([T], CurList1, List));
-  spaceStr([T], CurList1, List))).
-spaceStr(List, NewList) :- wordStr(List, [], NewList).
-
-pr20 :-
-  write("Enter your str: "),
-  readStr(S),nl,
-  firstSpaceStr(S, S1),
-  spaceStr(S1, S2),
-  writeStr(S2).
-
 %21 ƒана строка, состо€ща€ из слов, разделенных символами, которые пе-
 %речислены во второй строке. ѕоказать все слова.
 
@@ -455,3 +435,69 @@ pr22 :-
   NewS = [Left, ElMid, Right];
   NewS = [Left, Right]),
   writeStr(NewS).
+
+
+
+
+
+% «адание 20
+write_str([]) :- !.
+write_str([H|Tail]):-
+  put(H),
+  write_str(Tail).
+
+firstword([], Word, Word) :- !.
+firstword([H|_], Word, Word) :- H = 32, !.
+firstword([H|T], CurWord, NewWord) :-
+  append(CurWord, [H], CurWord1),
+  firstword(T, CurWord1, NewWord).
+firstword(List, Word) :- firstword(List, [], Word).
+
+list_nofirstspaces([], []) :- !.
+list_nofirstspaces([H|T], [H|T]) :- H \= 32, !.
+list_nofirstspaces([_|T], NewList) :- list_nofirstspaces(T, NewList).
+
+firstword_nfs(List, Word) :-
+  list_nofirstspaces(List, ListNFS),
+  firstword(ListNFS, Word).
+
+list_of_words(List, LW, LW) :-
+  list_nofirstspaces(List, ListNFS),
+  ListNFS = [], !.
+list_of_words(Str, CurLW, LW) :-
+  list_nofirstspaces(Str, StrNFS),
+  firstword(StrNFS, Word),
+  append(Word, StrNoWord, StrNFS),
+  append(CurLW, [Word], CurLW1),
+  list_of_words(StrNoWord, CurLW1, LW).
+list_of_words(Str, LW) :- list_of_words(Str, [], LW).
+
+
+read_str_nofix(A) :-
+  get0(X),
+  r_str_nofix(X, A, []).
+r_str_nofix(10, A, A) :- !.
+r_str_nofix(X, A, B) :-
+  append(B, [X], B1),
+  get0(X1),
+  r_str_nofix(X1, A, B1).
+
+
+
+str_with1space([], Str, Str) :- write("Str hasn\'t words"), !.
+str_with1space([H], CurStr, Str) :- append(CurStr, H, Str), !.
+str_with1space([H|T], CurStr, Str) :-
+  append(H, [32], H1),
+  append(CurStr, H1, CurStr1),
+  str_with1space(T, CurStr1, Str).
+str_with1space(List, Str) :- str_with1space(List, [], Str).
+
+pr20 :-
+  write("Str -> "),
+  read_str_nofix(S),
+  list_of_words(S, Words),
+  str_with1space(Words, NewS),
+  write("New Str => ["),
+  write_str(NewS),
+  write("]").
+
